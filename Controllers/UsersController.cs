@@ -58,7 +58,7 @@ namespace HealthInsurance.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Username,Password,Email,PhoneNumber,RegistrationDate,Roleid,ProfilePictureUrl,ProfilePictureFile")] Users users)
+        public async Task<IActionResult> Create([Bind("Id,Username,Password,Email,PhoneNumber,RegistrationDate,ProfilePictureUrl,ProfilePictureFile")] Users users)
         {
             if (ModelState.IsValid)
             {
