@@ -3,78 +3,79 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<!-- Appointment Start -->
-<div class="container-fluid appointment my-5 py-3 pb-4 wow fadeIn"
-     data-wow-delay="0.1s">
-    <div class="container py-3">
-        <div class="row g-5 p-3">
-            <div class="col-lg-6 wow fadeIn" style="margin-top: 10rem" data-wow-delay="0.3s">
-                <h1 class="display-6 text-white mb-5">
-                    We're Award Winning Insurance Company
-                </h1>
-                <p class="text-white mb-5">
-                    We're proud to be an award-winning health insurance company. Our commitment to providing top-notch healthcare coverage and exceptional customer service has been recognized by industry experts and organizations. We understand that quality healthcare is not just a privilege but a fundamental necessity, and our award-winning status underscores our continuous efforts to deliver the best possible healthcare solutions.
-                </p>
-                <div class="bg-white rounded p-3">
-                    <div class="d-flex align-items-center bg-primary rounded p-3">
-                        <img class="flex-shrink-0 rounded-circle me-3"
-                             src="~/HomeAssets/img/profile.jpg"
-                             alt="" />
-                        <h5 class="text-white mb-0">Call Us: +012 345 6789</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                <div class="bg-white rounded p-5 ms-2 text-center">
-                    <div class="bg-white rounded p-3 ">
-                        <div class="d-flex align-items-center bg-primary rounded p-3 mb-2 text-center">
-                            <h5 class="text-white mb-0 p-2">Register</h5>
+<body>
+    <!-- Appointment Start -->
+    <div class="container-fluid appointment my-5 py-3 pb-4 wow fadeIn"
+         data-wow-delay="0.1s">
+        <div class="container py-3">
+            <div class="row g-5 p-3">
+                <div class="col-lg-6 wow fadeIn" style="margin-top: 10rem" data-wow-delay="0.3s">
+                    <h1 class="display-6 text-white mb-5">
+                        We're Award Winning Insurance Company
+                    </h1>
+                    <p class="text-white mb-5">
+                        We're proud to be an award-winning health insurance company. Our commitment to providing top-notch healthcare coverage and exceptional customer service has been recognized by industry experts and organizations. We understand that quality healthcare is not just a privilege but a fundamental necessity, and our award-winning status underscores our continuous efforts to deliver the best possible healthcare solutions.
+                    </p>
+                    <div class="bg-white rounded p-3">
+                        <div class="d-flex align-items-center bg-primary rounded p-3">
+                            <img class="flex-shrink-0 rounded-circle me-3"
+                                 src="~/HomeAssets/img/profile.jpg"
+                                 alt="" />
+                            <h5 class="text-white mb-0">Call Us: +012 345 6789</h5>
                         </div>
                     </div>
-                    <form>
+                </div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <div class="bg-white rounded p-5 ms-2 text-center">
+                        <div class="bg-white rounded p-3 ">
+                            <div class="d-flex align-items-center bg-primary rounded p-3 mb-2 text-center">
+                                <h5 class="text-white mb-0 p-2">Register</h5>
+                            </div>
+                        </div>
                         <form method="post" asp-action="Create" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <label asp-for="Username" class="control-label"></label>
-                                        <input asp-for="Username" class="form-control" />
+                                        <label id="usernameLabel" asp-for="Username" class="control-label"></label>
+                                        <input asp-for="Username" class="form-control" onfocus="hideLabel('usernameLabel')" onblur="showLabel('usernameLabel')" />
                                         <span asp-validation-for="Username" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <label asp-for="Password" class="control-label"></label>
-                                        <input asp-for="Password" class="form-control" />
+                                        <label id="passwordLabel" asp-for="Password" class="control-label"></label>
+                                        <input asp-for="Password" class="form-control" onfocus="hideLabel('passwordLabel')" onblur="showLabel('passwordLabel')" />
                                         <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <label asp-for="Email" class="control-label"></label>
-                                        <input asp-for="Email" class="form-control" />
+                                        <label id="emailLabel" asp-for="Email" class="control-label"></label>
+                                        <input asp-for="Email" class="form-control" onfocus="hideLabel('emailLabel')" onblur="showLabel('emailLabel')" />
                                         <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <label asp-for="PhoneNumber" class="control-label"></label>
-                                        <input asp-for="PhoneNumber" class="form-control" />
+                                        <label id="phoneLabel" asp-for="PhoneNumber" class="control-label"></label>
+                                        <input asp-for="PhoneNumber" class="form-control" onfocus="hideLabel('phoneLabel')" onblur="showLabel('phoneLabel')" />
                                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        @* <label asp-for="RegistrationDate" class="control-label" ></label> *@
-                                        <input asp-for="RegistrationDate" class="form-control" />
+                                        <label id="registrationDateLabel" asp-for="RegistrationDate" class="control-label">Registration Date</label>
+                                        <input asp-for="RegistrationDate" class="form-control" onfocus="hideLabel('registrationDateLabel')" onblur="showLabel('registrationDateLabel')"
+                                               style="height: 80px; padding-top: 2.625rem;" />
                                         <span asp-validation-for="RegistrationDate" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        @* <label asp-for="ProfilePictureFile" class="control-label"></label> *@
-                                        <input asp-for="ProfilePictureFile" class="form-control" />
+                                        <label id="profilePictureLabel" asp-for="ProfilePictureFile" class="control-label">Profile Picture</label>
+                                        <input asp-for="ProfilePictureFile" class="form-control" onfocus="hideLabel('profilePictureLabel')" onblur="showLabel('profilePictureLabel')"
+                                               style="height: 80px; padding-top: 2.625rem;" />
                                         <span asp-validation-for="ProfilePictureFile" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -83,14 +84,21 @@
                                         Register
                                     </button>
                                 </div>
-                                <p>Already Have an Account? <a href="/Auth/Login" class="text-decoration-underline fw-bold ">Login</a> </p>
+                                <p>Already Have an Account? <a href="/Auth/Login" class="text-decoration-underline fw-bold">Login</a></p>
                             </div>
                         </form>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <script>
+        function hideLabel(labelId) {
+            document.getElementById(labelId).style.display = 'none';
+        }
 
-
+        function showLabel(labelId) {
+            document.getElementById(labelId).style.display = 'block';
+        }
+    </script>
+</body>

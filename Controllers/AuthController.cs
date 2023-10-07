@@ -79,13 +79,15 @@ namespace HealthInsurance.Controllers
                         HttpContext.Session.SetString("Name", auth.Username);
                         HttpContext.Session.SetString("Email", auth.Email);
                         HttpContext.Session.SetString("PhoneNumber", auth.PhoneNumber);
-                       
+                        HttpContext.Session.SetString("ProfilePic", auth.ProfilePictureUrl);
+
                         return RedirectToAction("Index", "Admin");
                     case 2:
                         HttpContext.Session.SetString("Name", auth.Username);
                         HttpContext.Session.SetString("Email", auth.Email);
                         HttpContext.Session.SetString("PhoneNumber", auth.PhoneNumber);
-                       
+                        HttpContext.Session.SetString("ProfilePic", auth.ProfilePictureUrl);
+
                         return RedirectToAction("Index", "Home");
                 }
 

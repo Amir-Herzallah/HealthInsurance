@@ -44,15 +44,15 @@
                             <div class="row g-3">
                                 <div class="col-sm-12">
                                     <div class="form-floating">
-                                        <label>Enter your email</label>
-                                        <input asp-for="Email" class="form-control"/>
+                                        <label id="emailLabel">Enter your email</label>
+                                        <input asp-for="Email" class="form-control" onfocus="hideLabel('emailLabel')" onblur="showLabel('emailLabel')" />
                                         <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-floating">
-                                        <label>Enter your email</label>
-                                        <input asp-for="Password" class="form-control"/>
+                                        <label id="passwordLabel">Enter your password</label>
+                                        <input asp-for="Password" class="form-control" onfocus="hideLabel('passwordLabel')" onblur="showLabel('passwordLabel')" />
                                         <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -74,4 +74,13 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top">
         <i class="bi bi-arrow-up"></i>
     </a>
+    <script>
+        function hideLabel(labelId) {
+            document.getElementById(labelId).style.display = 'none';
+        }
+
+        function showLabel(labelId) {
+            document.getElementById(labelId).style.display = 'block';
+        }
+    </script>
 </body>
