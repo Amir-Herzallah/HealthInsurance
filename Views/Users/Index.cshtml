@@ -55,10 +55,10 @@
                 @Html.DisplayFor(modelItem => item.RegistrationDate)
             </td>
             <td>
-                <img src="@Url.Content("~/images/" + item.ProfilePictureFile )" asp-append-version="true" width="100" height="100" />
+                <img src="@Url.Content("~/images/" + item.ProfilePictureUrl )" asp-append-version="true" width="125" height="100" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Role.Id)
+                @Html.DisplayFor(modelItem =>item.Role.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

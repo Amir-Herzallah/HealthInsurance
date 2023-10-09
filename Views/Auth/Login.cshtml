@@ -45,14 +45,16 @@
                                 <div class="col-sm-12">
                                     <div class="form-floating">
                                         <label id="emailLabel">Enter your email</label>
-                                        <input asp-for="Email" class="form-control" onfocus="hideLabel('emailLabel')" onblur="showLabel('emailLabel')" />
+                                        <input asp-for="Email" class="form-control" onfocus="hideLabel('emailLabel')" onblur="showLabel('emailLabel')"
+                                               style="height: 80px; padding-top: 2.625rem;" />
                                         <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-floating">
                                         <label id="passwordLabel">Enter your password</label>
-                                        <input asp-for="Password" class="form-control" onfocus="hideLabel('passwordLabel')" onblur="showLabel('passwordLabel')" />
+                                        <input asp-for="Password" class="form-control" onfocus="hideLabel('passwordLabel')" onblur="showLabel('passwordLabel')" 
+                                        style="height: 80px; padding-top: 2.625rem;" />
                                         <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
                                 </div>
