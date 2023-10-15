@@ -93,7 +93,17 @@
                     <a href="/ContactUs/Index" class="nav-item nav-link">Contact Us</a>
                 </div>
             </div>
-            <a href="/Auth/Register" class="btn btn-primary px-3 d-none d-lg-block">Create an Account</a>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="/Home/EditProfile/@ViewBag.id" class="btn btn-primary px-3 d-none d-lg-block">Edit Profile</a>
+                <a href="/Auth/Logout" class="btn btn-primary px-3 d-none d-lg-block ms-2">Logout</a>
+            }
+            else
+            {
+                <a href="/Auth/Register" class="btn btn-primary px-3 d-none d-lg-block">Create an Account</a>
+            }
+
         </nav>
         <!-- Navbar End -->
     </header>

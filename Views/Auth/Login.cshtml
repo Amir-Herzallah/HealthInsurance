@@ -32,7 +32,7 @@
                         <p class="mb-4" style="margin-top: 2.5rem !important;">
                             Health insurance serves as a crucial lifeline in today's complex healthcare landscape, offering individuals and families a safety net against the burden of medical expenses. It empowers people to seek timely medical care, promoting preventive health measures and early interventions. With health insurance, financial worries take a backseat, allowing individuals to focus on their recovery and overall well-being.
                         </p>
-                       
+
                     </div>
                 </div>
                 <div class="col-lg-4 wow fadeIn service-item rounded h-100 p-2 text-center" data-wow-delay="0.5s">
@@ -41,35 +41,39 @@
                             Login
                         </h1>
                         <form method="post" asp-action="Login">
-                            <div class="row g-3">
-                                <div class="col-sm-12">
-                                    <div class="form-floating">
-                                        <label id="emailLabel">Enter your email</label>
-                                        <input asp-for="Email" class="form-control" onfocus="hideLabel('emailLabel')" onblur="showLabel('emailLabel')"
-                                               style="height: 80px; padding-top: 2.625rem;" />
-                                        <span asp-validation-for="Email" class="text-danger"></span>
-                                    </div>
+                            <div class="col-md-12 p-2">
+                                <div class="form-floating">
+                                    <input asp-for="Email"
+                                           type="text"
+                                           class="form-control"
+                                           id="email"
+                                           placeholder="Your Email" />
+                                    <label for="email">Your Email</label>
                                 </div>
-                                <div class="col-sm-12">
-                                    <div class="form-floating">
-                                        <label id="passwordLabel">Enter your password</label>
-                                        <input asp-for="Password" class="form-control" onfocus="hideLabel('passwordLabel')" onblur="showLabel('passwordLabel')" 
-                                        style="height: 80px; padding-top: 2.625rem;" />
-                                        <span asp-validation-for="Password" class="text-danger"></span>
-                                    </div>
+                            </div>
+                            <div class="col-md-12 p-2">
+                                <div class="form-floating">
+                                    <input asp-for="Password"
+                                           type="passwrod"
+                                           class="form-control"
+                                           id="password"
+                                           placeholder="Your Password" />
+                                    <label for="password">Your Password</label>
                                 </div>
-                                <div class="col-12 mt-4">
-                                    <button class="btn btn-primary py-3 px-5" type="submit">
-                                        Login
-                                    </button>
-                                </div>
-                                <p class="mt-5">Don't Have an Account?<a href="/Auth/Register" class="text-decoration-underline fw-bold"> Register</a></p>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-primary py-3 px-5" type="submit">
+                                    Login
+                                </button>
                             </div>
                         </form>
+                        <p class="text-danger">@ViewBag.Error</p>
+                        <p class="mt-3">Don't Have an Account?<a href="/Auth/Register" class="text-decoration-underline fw-bold"> Register</a></p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <!-- Appointment End --
          <!-- Back to Top -->

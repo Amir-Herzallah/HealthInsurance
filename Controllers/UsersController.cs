@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HealthInsurance.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HealthInsurance.Controllers
 {
@@ -107,7 +108,7 @@ namespace HealthInsurance.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(decimal id, [Bind("Id,Username,Password,Email,PhoneNumber,RegistrationDate,Roleid,ProfilePictureUrl")] Users users)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Password,Email,PhoneNumber,ProfilePictureUrl")] Users users)
         {
             if (id != users.Id)
             {
@@ -134,7 +135,6 @@ namespace HealthInsurance.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Roleid"] = new SelectList(_context.Roles, "Id", "Id", users.Roleid);
             return View(users);
         }
 

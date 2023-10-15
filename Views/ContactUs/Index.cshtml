@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HealthInsurance.Models.ContactUs>
+﻿@model HealthInsurance.Models.ContactUs
 
 @{
     ViewData["Title"] = "Index";
@@ -36,13 +36,13 @@
                     <h1 class="display-6 mb-5">
                         If You Have Any Query, Please Contact Us
                     </h1>
-                    <form>
+                    <form asp-action="Create">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text"
                                            class="form-control"
-                                           id="name"
+                                           asp-for="Name"
                                            placeholder="Your Name" />
                                     <label for="name">Your Name</label>
                                 </div>
@@ -51,27 +51,27 @@
                                 <div class="form-floating">
                                     <input type="email"
                                            class="form-control"
-                                           id="email"
+                                           asp-for="Email"
                                            placeholder="Your Email" />
-                                    <label for="email">Your Email</label>
+                                    <label asp-for="Email">Your Email</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input type="text"
                                            class="form-control"
-                                           id="subject"
+                                           asp-for="Subject"
                                            placeholder="Subject" />
-                                    <label for="subject">Subject</label>
+                                    <label asp-for="Subject">Subject</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
                                     <textarea class="form-control"
                                               placeholder="Leave a message here"
-                                              id="message"
+                                              asp-for="Message"
                                               style="height: 100px"></textarea>
-                                    <label for="message">Message</label>
+                                    <label asp-for="Message">Message</label>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -106,58 +106,3 @@
 </body>
 
 
-
-@* <h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.LogoPath)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Message)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LogoPath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
- *@

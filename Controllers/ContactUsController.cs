@@ -17,14 +17,18 @@ namespace HealthInsurance.Controllers
         {
             _context = context;
         }
-
-        // GET: ContactUs
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-              return _context.ContactUs != null ? 
-                          View(await _context.ContactUs.ToListAsync()) :
-                          Problem("Entity set 'ModelContext.ContactUs'  is null.");
+            return View();
         }
+
+        //// GET: ContactUs
+        //public async Task<IActionResult> Index()
+        //{
+        //      return _context.ContactUs != null ? 
+        //                  View(await _context.ContactUs.ToListAsync()) :
+        //                  Problem("Entity set 'ModelContext.ContactUs'  is null.");
+        //}
 
         // GET: ContactUs/Details/5
         public async Task<IActionResult> Details(decimal? id)
@@ -55,7 +59,7 @@ namespace HealthInsurance.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LogoPath,Name,Email,Message,Subject")] ContactUs contactUs)
+        public async Task<IActionResult> Create([Bind("Id,LogoPath,Name,Email,Subject,Message")] ContactUs contactUs)
         {
             if (ModelState.IsValid)
             {

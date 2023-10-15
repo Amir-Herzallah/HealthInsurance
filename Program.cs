@@ -1,4 +1,5 @@
 using HealthInsurance.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,9 +9,21 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ModelContext>(options => options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddSession(
     options => {
-        options.IdleTimeout = TimeSpan.FromMinutes(60);
+        options.IdleTimeout = TimeSpan.FromMinutes(15);
     }
 );
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("User", policy => policy.RequireRole("User"));
+});
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Auth/Login"; // Specify your login path
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +42,7 @@ app.UseRouting();
 app.UseSession();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",

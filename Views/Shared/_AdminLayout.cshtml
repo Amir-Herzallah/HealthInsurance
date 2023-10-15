@@ -61,10 +61,19 @@
                         <a class="dropdown-item" href="#">
                             <i class="mdi mdi-cached me-2 text-success"></i> Activity Log
                         </a>
+                        
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                            <i class="mdi mdi-logout me-2 text-primary"></i> Signout
+
+                        <a class="dropdown-item" href="/Home/EditProfile/@ViewBag.id">
+                            <i class="mdi mdi-logout me-2 text-warning"></i> Edit Profile
                         </a>
+                        
+                        <div class="dropdown-divider"></div>
+                        
+                        <a class="dropdown-item" href="/Auth/Logout">
+                            <i class="mdi mdi-logout me-2 text-danger"></i> Logout
+                        </a>
+
                     </div>
                 </li>
                 <li class="nav-item d-none d-lg-block full-screen-link">

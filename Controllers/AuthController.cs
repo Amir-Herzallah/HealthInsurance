@@ -1,8 +1,12 @@
 ﻿using HealthInsurance.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace HealthInsurance.Controllers
 {
@@ -28,7 +32,7 @@ namespace HealthInsurance.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Username,Password,Email,PhoneNumber,RegistrationDate,ProfilePictureUrl,ProfilePictureFile")] Users users)
+        public async Task<IActionResult> Register([Bind("Id,Username,Password,Email,PhoneNumber,RegistrationDate,ProfilePictureUrl,ProfilePictureFile")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -55,17 +59,18 @@ namespace HealthInsurance.Controllers
                     _context.Add(users);
                     await _context.SaveChangesAsync();
                     //Action //Controller
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login", "Auth");
                 }
                 else
                 {
                     ViewBag.Error = "Email Already Used, try another email.";
                 }
-                
+
             }
-            
+
             return View("~/Home/Index");
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([Bind("Id,Email,Password")] Users userLogin)
@@ -73,9 +78,22 @@ namespace HealthInsurance.Controllers
             var auth = _context.Users.Where(x => x.Email == userLogin.Email && x.Password == userLogin.Password).FirstOrDefault();
             if (auth != null)
             {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, auth.Username),
+                    new Claim(ClaimTypes.Email, auth.Email),
+
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
                 switch (auth.Roleid)
                 {
                     case 1:
+                        HttpContext.Session.SetInt32("Id", (Int32)auth.Id);
                         HttpContext.Session.SetString("Name", auth.Username);
                         HttpContext.Session.SetString("Email", auth.Email);
                         HttpContext.Session.SetString("PhoneNumber", auth.PhoneNumber);
@@ -83,6 +101,7 @@ namespace HealthInsurance.Controllers
 
                         return RedirectToAction("Index", "Admin");
                     case 2:
+                        HttpContext.Session.SetInt32("Id", (Int32)auth.Id);
                         HttpContext.Session.SetString("Name", auth.Username);
                         HttpContext.Session.SetString("Email", auth.Email);
                         HttpContext.Session.SetString("PhoneNumber", auth.PhoneNumber);
@@ -90,15 +109,22 @@ namespace HealthInsurance.Controllers
 
                         return RedirectToAction("Index", "Home");
                 }
-
             }
             else
             {
-                ViewBag.Error = "Invaild Credentials!";
+                ViewBag.Error = "Invalid Credentials!";
             }
 
             return View();
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Session.Clear();
+
+            await Task.Run(async () => await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme));
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
