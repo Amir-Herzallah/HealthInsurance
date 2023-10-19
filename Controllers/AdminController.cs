@@ -33,5 +33,39 @@ namespace HealthInsurance.Controllers
 
             return View(usersInfo);
         }
+        //GET
+        public IActionResult SubSearch()
+        {
+            var model = _context.Users.Include(p => p.Subscription).Where(x => x.Subscription != null).ToList();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult SubSearch(DateTime? startDate, DateTime? endDate)
+        {
+            var model = _context.Users.Include(p => p.Subscription).Where(x => x.Subscription.Status != null).ToList();
+            if (startDate == null && endDate == null)
+            {
+                return View(model);
+            }
+            else if (startDate != null && endDate == null)
+            {
+                var result = model.Where(x => x.Subscription.StartDate.Date >= startDate);
+                return View(result);
+            }
+
+            else if (startDate == null && endDate != null)
+            {
+                var result = model.Where(x => x.Subscription.StartDate.Date <= endDate);
+                return View(result);
+            }
+            else
+            {
+                var result = model.Where
+                    (x => x.Subscription.StartDate.Date >= startDate && x.Subscription.StartDate.Date <= endDate);
+
+                return View(result);
+            }
+        }
     }
 }

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<HealthInsurance.Models.Users>
+
+@{
+    ViewData["Title"] = "SubSearch";
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Search</h1>
+                    <h4 class="card-title">Search between two order dates</h4>
+                    <form class="form-inline" asp-action="SubSearch" method="post">
+                        <label class="sr-only" for="startDate">Start Date</label>
+                        <input type="date" class="form-control mb-2 mr-sm-2" id="startDate" name="startDate" placeholder="Start Date">
+
+                        <label class="sr-only" for="endDate">End Date</label>
+                        <input type="date" class="form-control mb-2 mr-sm-2" id="endDate" name="endDate" placeholder="End Date">
+
+                        <div class="text-center mb-2 mt-2">
+                            <button type="submit" class="btn btn-info">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-12">
+            <table class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Username
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Phone Number
+                        </th>
+                        <th>
+                            Subscription Status
+                        </th>
+                        <th>
+                            StartDate
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Subscription.Status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Subscription.StartDate)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
