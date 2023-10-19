@@ -1,0 +1,102 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@if (TempData.ContainsKey("PaymentSuccess"))
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["PaymentSuccess"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@if (TempData.ContainsKey("PaymentError"))
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        @TempData["PaymentError"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@if (TempData.ContainsKey("SubError"))
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        @TempData["SubError"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5 justify-content-center">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="display-6 text-center mb-5">Few Reasons Why People Choosing Us!</h1>
+                <div class="row g-3">
+                    <div class="col-sm-6 wow fadeIn justify-content-center" data-wow-delay="0.1s">
+                        <div class="bg-light rounded h-100 p-3">
+                            <div class="bg-white d-flex flex-column justify-content-center text-center rounded h-100 py-4 px-3">
+                                <img class="align-self-center mb-3"
+                                     src="~/HomeAssets/img/icon/icon-06-primary.png"
+                                     alt="" />
+                                <h5 class="mb-0">Easy Process</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 wow fadeIn" data-wow-delay="0.2s">
+                        <div class="bg-light rounded h-100 p-3">
+                            <div class="bg-white d-flex flex-column justify-content-center text-center rounded py-4 px-3">
+                                <img class="align-self-center mb-3"
+                                     src="~/HomeAssets/img/icon/icon-03-primary.png"
+                                     alt="" />
+                                <h5 class="mb-0">Fast Delivery</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 wow fadeIn" data-wow-delay="0.3s">
+                        <div class="bg-light rounded h-100 p-3">
+                            <div class="bg-white d-flex flex-column justify-content-center text-center rounded py-4 px-3">
+                                <img class="align-self-center mb-3"
+                                     src="~/HomeAssets/img/icon/icon-04-primary.png"
+                                     alt="" />
+                                <h5 class="mb-0">Policy Controlling</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 wow fadeIn" data-wow-delay="0.4s">
+                        <div class="bg-light rounded h-100 p-3">
+                            <div class="bg-white d-flex flex-column justify-content-center text-center rounded h-100 py-4 px-3">
+                                <img class="align-self-center mb-3"
+                                     src="~/HomeAssets/img/icon/icon-07-primary.png"
+                                     alt="" />
+                                <h5 class="mb-0">Money Saving</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center mt-4 mb-4">
+                        <a href="/Home/CardCheck">
+                            <button class="btn btn-primary py-3 px-5">
+                                Subscribe Now!
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // Initialize Bootstrap JavaScript components
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
+        $('.alert-dismissible .close').on('click', function () {
+            $(this).closest('.alert-dismissible').fadeOut();
+        });
+    });
+</script>

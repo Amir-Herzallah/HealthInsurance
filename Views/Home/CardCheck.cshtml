@@ -1,0 +1,90 @@
+﻿@model HealthInsurance.Models.Bank
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    /* Ensure both sections have equal height */
+    .service-item,
+    .panel.panel-default {
+        min-height: 350px; /* Set your desired height */
+    }
+</style>
+
+<body>
+    <div class="container-fluid p-5 wow fadeIn bg-light rounded ps-2" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Health Insurance Section -->
+                <div class="col-lg-4 col-md-6 offset-2 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item rounded h-100 p-5">
+                        <div class="d-flex align-items-center ms-n5 mb-4">
+                            <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
+                                <img class="img-fluid"
+                                     src="~/HomeAssets/img/icon/icon-06-light.png"
+                                     alt="" />
+                            </div>
+                            <h4 class="mb-0">Secure Payment</h4>
+                        </div>
+                        <p class="mb-4" style="margin-top: 2.5rem !important;">
+                            Our health insurance payment system is built upon a foundation of security and safety that ensures the protection of our personal and financial information. Several key factors contribute to this robust security.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Payment Details Section -->
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="panel panel-default">
+                        <div class="panel-heading mb-2">
+                            <div class="row">
+                                <h3 class="text-center">Payment Details</h3>
+                                <img class="img-responsive cc-img" src="http://www.prepbootstrap.com/Content/images/shared/misc/creditcardicons.png">
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <form method="post" asp-action="CardCheck">
+                                <div class="form-group">
+                                    <label>CARD NUMBER</label>
+                                    <div class="input-group">
+                                        <input type="tel" class="form-control" name="CardNo" placeholder="Valid Card Number" />
+                                        <span class="fa fa-credit-card ms-2 line-height"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-7 col-md-7 mt-2">
+                                        <div class="form-group">
+                                            <label><span class="hidden-xs">EXPIRATION DATE</span></label>
+                                            <input type="tel" class="form-control" name="ExpirationDate" placeholder="MM / YY" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-5 col-md-5 mt-2">
+                                            <label>CV CODE</label>
+                                            <input type="tel" class="form-control" name="Cvv" placeholder="CVC" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-2">
+                                    <label>CARD OWNER</label>
+                                    <input type="text" class="form-control" name="CardHolderName" placeholder="Card Owner Name" />
+                                </div>
+
+                                <input type="hidden" name="PaymentMethod" value="CreditCard" />
+
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-xs-12 text-center mt-4">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block">Process payment</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

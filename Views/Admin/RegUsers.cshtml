@@ -1,0 +1,77 @@
+﻿@model IEnumerable<HealthInsurance.Models.Users>
+@{
+    Layout = "_AdminLayout";
+}
+<link href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" rel="stylesheet" />
+<style>
+    /* Increase padding for table cells */
+    .table td {
+        padding: 10px; /* Adjust the padding as needed */
+    }
+</style>
+
+<div class="col-9 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="RegUsers" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th> User </th>
+                            <th> Name </th>
+                            <th> Email </th>
+                            <th> Phone Number </th>
+                            <th> Registration Date </th>
+                            <th> Subscription Status </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@Url.Content("~/images/" + item.ProfilePictureUrl)" asp-append-version="true" width="100" height="100" />
+                                </td>
+                                <td> @Html.DisplayFor(modelItem => item.Username) </td>
+                                <td> @Html.DisplayFor(modelItem => item.Email) </td>
+                                <td> @Html.DisplayFor(modelItem => item.PhoneNumber) </td>
+                                <td> @item.RegistrationDate.ToString("dd-MM-yyyy")</td>
+                                @if (item.Subscription == null)
+                                {
+                                    <td>Not Subscribed</td>
+                                }
+                                else
+                                {
+                                    <td>@Html.DisplayFor(modelItem => item.Subscription.Status)</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js" defer></script>
+<script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js" defer></script>
+
+<script>
+    $(document).ready(function () {
+        $('#RegUsers').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'pdfHtml5',
+                    title: 'Registered Users', // Set the title here
+                }
+            ]
+        });
+    });
+</script>

@@ -8,10 +8,11 @@ namespace HealthInsurance.Controllers
     public class AdminController : Controller
     {
         private readonly ModelContext _context;
-
-        public AdminController(ModelContext context)
+        private readonly IWebHostEnvironment webHostEnvironment;
+        public AdminController(ModelContext context, IWebHostEnvironment webHostEnvironment)
         {
             this._context = context;
+            this.webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -25,6 +26,12 @@ namespace HealthInsurance.Controllers
             ViewBag.CurrentDate = DateTime.Now;
 
             return View();
+        }
+        public IActionResult RegUsers()
+        {
+            var usersInfo = _context.Users.Include(s=>s.Subscription.Beneficiaries).ToList();
+
+            return View(usersInfo);
         }
     }
 }
