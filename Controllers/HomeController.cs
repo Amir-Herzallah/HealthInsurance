@@ -167,7 +167,7 @@ namespace HealthInsurance.Controllers
         {
             return View();
         }
-
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CardCheck([Bind("CardNo, CardHolderName, Cvv")] Bank bank)
@@ -309,6 +309,51 @@ namespace HealthInsurance.Controllers
             }
 
             return pdfFileName;
+        }
+        public IActionResult AddBeneficiaries()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddBeneficiaries([Bind("Id,Subscriptionid,Name,DateOfBirth,Gender,RelationshipToSubscriber,Status,BeneficiaryImagePath,BeneficiaryImageFile,BeneficiaryCreationDate")] Beneficiaries beneficiaries)
+        {
+            beneficiaries.Status = "Pending";
+
+            // Retrieve user and subscription information
+            var userId = HttpContext.Session.GetInt32("Id");
+            var subscription = _context.Subscriptions.FirstOrDefault(s => s.Userid == userId);
+
+            if (subscription == null)
+            {
+                TempData["NotSubed"] = "You must be subscribed first!";
+                return RedirectToAction("Subscriptions", "Home");
+            }
+            else
+            {
+                if (beneficiaries.BeneficiaryImageFile != null)
+                {
+                    // Handle file upload
+                    string wwwRootPath = webHostEnvironment.WebRootPath;
+                    string fileName = Guid.NewGuid().ToString() + beneficiaries.BeneficiaryImageFile.FileName;
+                    string path = Path.Combine(wwwRootPath + "/images/" + fileName);
+
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await beneficiaries.BeneficiaryImageFile.CopyToAsync(fileStream);
+                    }
+
+                    beneficiaries.BeneficiaryImagePath = fileName;
+
+                    // Update the subscription with the new beneficiary
+                    subscription.Beneficiaries.Add(beneficiaries);
+
+                    // Save changes to the database
+                    _context.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index", "Home"); // Redirect to the appropriate page after adding a beneficiary.
         }
 
 

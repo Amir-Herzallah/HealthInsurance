@@ -1,0 +1,108 @@
+﻿@model HealthInsurance.Models.Beneficiaries
+@{
+    Layout = "_Layout";
+}
+
+<body>
+    <!-- Appointment Start -->
+    <div class="container-fluid appointment my-5 py-3 pb-4 wow fadeIn"
+         data-wow-delay="0.1s">
+        <div class="container py-3">
+            <div class="row g-5 p-3">
+                <div class="col-lg-6 wow fadeIn" style="margin-top: 10rem" data-wow-delay="0.3s">
+                    <h1 class="display-6 text-white mb-5">
+                        We're Award Winning Insurance Company
+                    </h1>
+                    <p class="text-white mb-5">
+                        We're proud to be an award-winning health insurance company. Our commitment to providing top-notch healthcare coverage and exceptional customer service has been recognized by industry experts and organizations. We understand that quality healthcare is not just a privilege but a fundamental necessity, and our award-winning status underscores our continuous efforts to deliver the best possible healthcare solutions.
+                    </p>
+                    <div class="bg-white rounded p-3">
+                        <div class="d-flex align-items-center bg-primary rounded p-3">
+                            <img class="flex-shrink-0 rounded-circle me-3"
+                                 src="~/HomeAssets/img/profile.jpg"
+                                 alt="" />
+                            <h5 class="text-white mb-0">Call Us: +012 345 6789</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <div class="bg-white rounded p-5 ms-2 text-center">
+                        <div class="bg-white rounded p-3 ">
+                            <div class="d-flex align-items-center bg-primary rounded p-3 mb-2 text-center">
+                                <h5 class="text-white mb-2 p-1"
+                                    style="margin-left: 10.5rem;
+                                margin-block-start: 0.67em;">
+                                    Add Beneficiaries
+                                </h5>
+                            </div>
+                        </div>
+                        <form method="post" asp-action="AddBeneficiaries" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group hidden">
+                                <label asp-for="Subscriptionid" class="control-label"></label>
+                                <select asp-for="Subscriptionid" class="form-control" asp-items="ViewBag.Subscriptionid"></select>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Name"
+                                               type="text"
+                                               class="form-control"
+                                               id="name"
+                                               placeholder="Your Name" />
+                                        <label for="name">Beneficiary Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="DateOfBirth"
+                                               type="date"
+                                               class="form-control"
+                                               id="DateOfBirth"
+                                               placeholder="DateOfBirth" />
+                                        <label for="DateOfBirth">Beneficiary Date of Birth</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input asp-for="Gender"
+                                               type="text"
+                                               class="form-control"
+                                               id="Gender"
+                                               placeholder="Beneficiary Gender" />
+                                        <label for="Gender">Beneficiary Gender</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input asp-for="RelationshipToSubscriber"
+                                               type="text"
+                                               class="form-control"
+                                               id="RelationshipToSubscriber"
+                                               placeholder="Relationship to Subscriber" />
+                                        <label for="RelationshipToSubscriber">Relationship to Subscriber</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="BeneficiaryImageFile"
+                                               type="file"
+                                               class="form-control"
+                                               id="BeneficiaryImageFile"
+                                               placeholder="Beneficiary Picture" />
+                                        <label for="BeneficiaryImageFile">Beneficiary Picture</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center mt-4 mb-4">
+                                    <button class="btn btn-primary py-3 px-5" type="submit">
+                                        Add Beneficiary
+                                    </button>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
