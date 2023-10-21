@@ -21,6 +21,11 @@ namespace HealthInsurance.Controllers
         // GET: Subscriptions
         public async Task<IActionResult> Index()
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
             var modelContext = _context.Subscriptions.Include(s => s.User);
             return View(await modelContext.ToListAsync());
         }
@@ -47,6 +52,11 @@ namespace HealthInsurance.Controllers
         // GET: Subscriptions/Create
         public IActionResult Create()
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
             ViewData["Userid"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
@@ -71,6 +81,12 @@ namespace HealthInsurance.Controllers
         // GET: Subscriptions/Edit/5
         public async Task<IActionResult> Edit(decimal? id)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+
             if (id == null || _context.Subscriptions == null)
             {
                 return NotFound();

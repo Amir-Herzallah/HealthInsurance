@@ -21,13 +21,34 @@ namespace HealthInsurance.Controllers
         // GET: Beneficiaries
         public async Task<IActionResult> Index()
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             var modelContext = _context.Beneficiaries.Include(b => b.Subscription);
+            ViewData["Subscriptionid"] = new SelectList(_context.Subscriptions, "Id", "Username");
             return View(await modelContext.ToListAsync());
         }
 
         // GET: Beneficiaries/Details/5
         public async Task<IActionResult> Details(decimal? id)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.UsersCount = _context.Users.Count();
+            ViewBag.SubsCount = _context.Subscriptions.Count();
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             if (id == null || _context.Beneficiaries == null)
             {
                 return NotFound();
@@ -47,7 +68,7 @@ namespace HealthInsurance.Controllers
         // GET: Beneficiaries/Create
         public IActionResult Create()
         {
-            ViewData["Subscriptionid"] = new SelectList(_context.Subscriptions, "Id", "Id");
+            ViewData["Subscriptionid"] = new SelectList(_context.Subscriptions, "Id", "Userid");
             return View();
         }
 

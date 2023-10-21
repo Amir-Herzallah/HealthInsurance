@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using SQLitePCL;
 
 namespace HealthInsurance.Controllers
 {
@@ -98,7 +99,10 @@ namespace HealthInsurance.Controllers
                         HttpContext.Session.SetString("Email", auth.Email);
                         HttpContext.Session.SetString("PhoneNumber", auth.PhoneNumber);
                         HttpContext.Session.SetString("ProfilePic", auth.ProfilePictureUrl);
-
+                        
+                        HttpContext.Session.SetInt32("userLoginId", (Int32)auth.Id);
+                        HttpContext.Session.SetString("userLoginEmail", auth.Email);
+                        HttpContext.Session.SetString("userLoginName", auth.Username);
                         return RedirectToAction("Index", "Admin");
                     case 2:
                         HttpContext.Session.SetInt32("Id", (Int32)auth.Id);
@@ -106,7 +110,10 @@ namespace HealthInsurance.Controllers
                         HttpContext.Session.SetString("Email", auth.Email);
                         HttpContext.Session.SetString("PhoneNumber", auth.PhoneNumber);
                         HttpContext.Session.SetString("ProfilePic", auth.ProfilePictureUrl);
-
+                       
+                        HttpContext.Session.SetInt32("userLoginId", (Int32)auth.Id);
+                        HttpContext.Session.SetString("userLoginEmail", auth.Email);
+                        HttpContext.Session.SetString("userLoginName", auth.Username);
                         return RedirectToAction("Index", "Home");
                 }
             }

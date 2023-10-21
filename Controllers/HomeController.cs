@@ -38,6 +38,9 @@ namespace HealthInsurance.Controllers
             ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
             ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
             ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             return View();
         }
 
@@ -49,6 +52,16 @@ namespace HealthInsurance.Controllers
         // GET:
         public async Task<IActionResult> EditProfile(decimal? id)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+
             if (id == null || _context.Users == null)
             {
                 return NotFound();
@@ -70,6 +83,15 @@ namespace HealthInsurance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProfile(decimal id, [Bind("Id,Username,Password,Email,PhoneNumber,RegistrationDate,Roleid,ProfilePictureUrl,ProfilePictureFile")] Users users)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             if (id != users.Id)
             {
                 return NotFound();
@@ -161,13 +183,28 @@ namespace HealthInsurance.Controllers
         }
         public IActionResult Subscriptions()
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.CurrentDate = DateTime.Now;
             return View();
         }
         public IActionResult CardCheck()
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             return View();
         }
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CardCheck([Bind("CardNo, CardHolderName, Cvv")] Bank bank)
@@ -178,7 +215,9 @@ namespace HealthInsurance.Controllers
             ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
             ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
             ViewBag.CurrentDate = DateTime.Now;
-
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             var check = _context.Bank.FirstOrDefault(x => x.CardNo == bank.CardNo && x.CardHolderName == bank.CardHolderName && x.Cvv == bank.Cvv);
 
             if (check != null)
@@ -312,12 +351,32 @@ namespace HealthInsurance.Controllers
         }
         public IActionResult AddBeneficiaries()
         {
+            ViewBag.BeneId = HttpContext.Session.GetInt32("BeneId");
+            ViewBag.BeneName = HttpContext.Session.GetString("BeneName");
+            ViewBag.BeneRelToSub = HttpContext.Session.GetString("BeneRelToSub");
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddBeneficiaries([Bind("Id,Subscriptionid,Name,DateOfBirth,Gender,RelationshipToSubscriber,Status,BeneficiaryImagePath,BeneficiaryImageFile,BeneficiaryCreationDate")] Beneficiaries beneficiaries)
+        public async Task<IActionResult> AddBeneficiaries([Bind("Subscriptionid,Name,DateOfBirth,Gender,RelationshipToSubscriber,Status,BeneficiaryImagePath,BeneficiaryImageFile,BeneficiaryCreationDate")] Beneficiaries beneficiaries)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.CurrentDate = DateTime.Now;
+
             beneficiaries.Status = "Pending";
 
             // Retrieve user and subscription information
@@ -344,16 +403,35 @@ namespace HealthInsurance.Controllers
                     }
 
                     beneficiaries.BeneficiaryImagePath = fileName;
-
-                    // Update the subscription with the new beneficiary
-                    subscription.Beneficiaries.Add(beneficiaries);
-
-                    // Save changes to the database
-                    _context.SaveChanges();
                 }
-            }
 
-            return RedirectToAction("Index", "Home"); // Redirect to the appropriate page after adding a beneficiary.
+                beneficiaries.BeneficiaryCreationDate = DateTime.Now.Date;
+                HttpContext.Session.SetInt32("BeneId", (int)beneficiaries.Id);
+                HttpContext.Session.SetString("BeneName", beneficiaries.Name);
+                HttpContext.Session.SetString("BeneRelToSub", beneficiaries.RelationshipToSubscriber);
+
+                // Create a new Beneficiaries object and set its properties
+                var newBeneficiary = new Beneficiaries
+                {
+                    Subscriptionid = beneficiaries.Subscriptionid,
+                    Name = beneficiaries.Name,
+                    DateOfBirth = beneficiaries.DateOfBirth,
+                    Gender = beneficiaries.Gender,
+                    RelationshipToSubscriber = beneficiaries.RelationshipToSubscriber,
+                    Status = beneficiaries.Status,
+                    BeneficiaryImagePath = beneficiaries.BeneficiaryImagePath,
+                    BeneficiaryCreationDate = beneficiaries.BeneficiaryCreationDate
+                };
+
+                // Add the new beneficiary to the subscription's collection
+                subscription.Beneficiaries.Add(newBeneficiary);
+
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+            }
+            TempData["BeneSuccess"] = "Your request has been successfully submitted. Please check your email for further instructions and updates.";
+            return RedirectToAction("AddBeneficiaries", "Home");
         }
 
 

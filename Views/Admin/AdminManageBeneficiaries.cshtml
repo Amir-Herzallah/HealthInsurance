@@ -1,0 +1,52 @@
+﻿@model List<HealthInsurance.Models.Beneficiaries>
+@{
+    Layout = "_AdminLayout";
+}
+<style>
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: transparent;
+    }
+</style>
+<div class="row justify-content-center mt-3">
+    <div class="col-8">
+        <table class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Beneficiary Name</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Relationship to Subscriber</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var beneficiary in Model)
+                {
+                    <tr>
+                        <td>@beneficiary.Name</td>
+                        <td>@beneficiary.DateOfBirth.ToShortDateString()</td>
+                        <td>@beneficiary.Gender</td>
+                        <td>@beneficiary.RelationshipToSubscriber</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => beneficiary.Status)
+                        </td>
+                        <td>
+                            <form asp-action="UpdateBeneficiaryStatus" asp-route-beneficiaryId="@beneficiary.Id" method="post">
+                                <div>
+                                    <select for="newStatus" asp-items="ViewBag.StatusOptions">
+                                    </select>
+                                    <button type="submit" name="newStatus" value="Accepted" class="btn btn-success">Accept</button>
+                                    <button type="submit" name="newStatus" value="Rejected" class="btn btn-danger">Reject</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
