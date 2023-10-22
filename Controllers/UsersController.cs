@@ -69,7 +69,7 @@ namespace HealthInsurance.Controllers
 
                     string fileName = Guid.NewGuid().ToString() + users.ProfilePictureFile.FileName;
 
-                    string path = Path.Combine(wwwRootPath + "/Images/" + fileName);
+                    string path = Path.Combine(wwwRootPath + "/images/" + fileName);
 
                     using (var fileStream = new FileStream(path, FileMode.Create))
                     {

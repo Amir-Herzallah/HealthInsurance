@@ -59,7 +59,6 @@ namespace HealthInsurance.Controllers
                     users.Roleid = 2;
                     _context.Add(users);
                     await _context.SaveChangesAsync();
-                    //Action //Controller
                     return RedirectToAction("Login", "Auth");
                 }
                 else

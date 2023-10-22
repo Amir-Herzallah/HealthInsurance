@@ -32,6 +32,7 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+
             return View();
         }
         public IActionResult RegUsers()
@@ -48,6 +49,7 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+
             return View(usersInfo);
         }
         //GET
@@ -65,6 +67,7 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             var model = _context.Users.Include(p => p.Subscription).Where(x => x.Subscription != null).ToList();
+
             return View(model);
         }
 
@@ -123,7 +126,7 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
-            // Retrieve a list of beneficiaries from the database
+
             var beneficiaries = _context.Beneficiaries.ToList();
 
             ViewBag.BeneId = HttpContext.Session.GetInt32("BeneId");
@@ -142,7 +145,7 @@ namespace HealthInsurance.Controllers
             // Retrieve the beneficiary from the database
             var beneficiary = _context.Beneficiaries.FirstOrDefault(b => b.Id == beneficiaryId);
             var sub = _context.Subscriptions.FirstOrDefault(s => s.Id == beneficiary.Subscriptionid);
-            var user = _context.Users.Where(x => x.Id == sub.Userid ).FirstOrDefault();
+            var user = _context.Users.Where(x => x.Id == sub.Userid).FirstOrDefault();
 
             HttpContext.Session.SetInt32("Id", (Int32)user.Id);
             HttpContext.Session.SetString("Name", user.Username);
@@ -164,14 +167,7 @@ namespace HealthInsurance.Controllers
 
             if (beneficiary != null && beneficiary.BeneficiaryImagePath != null)
             {
-                // Update the status to the new status (e.g., "Accepted" or "Rejected")
                 beneficiary.Status = newStatus;
-
-                //// Retrieve the subscriber's email from the database
-                //var subEmail = _context.Users
-                //    .Where(u => u.Id == beneficiary.Subscription.Userid)
-                //    .Select(u => u.Email)
-                //    .FirstOrDefault();
 
                 if (beneficiary.Status == "Accepted")
                 {
@@ -189,19 +185,16 @@ namespace HealthInsurance.Controllers
                             Body = "Congrats! you have added a beneficiary successfully."
                         };
 
-                        mailMessage.To.Add("amir.herzalla123@gmail.com"); // Use the retrieved email
+                        mailMessage.To.Add("amir.herzalla123@gmail.com"); 
 
-                        // Create the PDF invoice
                         var pdfFileName = GenerateInvoicePDF(ViewBag.name, ViewBag.CurrentDate, 50.0, ViewBag.BeneName, ViewBag.BeneRelToSub); // Pass the required data for the invoice
 
-                        // Attach the PDF to the email
                         mailMessage.Attachments.Add(new Attachment(pdfFileName, MediaTypeNames.Application.Pdf));
 
                         smtpClient.Send(mailMessage);
                     }
                 }
 
-                // Save changes to the database
                 await _context.SaveChangesAsync();
             }
 
@@ -243,7 +236,6 @@ namespace HealthInsurance.Controllers
                 {
                     document.Add(new Paragraph(" "));
                 }
-                // Add content to the PDF inside the border (e.g., customer name, date, amount)
                 iTextSharp.text.Paragraph heading = new Paragraph("Subscription Details", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 16f));
                 heading.Alignment = Element.ALIGN_CENTER;
                 for (int i = 0; i < 2; i++)

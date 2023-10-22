@@ -22,14 +22,6 @@ namespace HealthInsurance.Controllers
             return View();
         }
 
-        //// GET: ContactUs
-        //public async Task<IActionResult> Index()
-        //{
-        //      return _context.ContactUs != null ? 
-        //                  View(await _context.ContactUs.ToListAsync()) :
-        //                  Problem("Entity set 'ModelContext.ContactUs'  is null.");
-        //}
-
         // GET: ContactUs/Details/5
         public async Task<IActionResult> Details(decimal? id)
         {
@@ -157,7 +149,6 @@ namespace HealthInsurance.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool ContactUsExists(decimal id)
         {
           return (_context.ContactUs?.Any(e => e.Id == id)).GetValueOrDefault();
