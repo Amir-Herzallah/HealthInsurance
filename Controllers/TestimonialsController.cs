@@ -21,27 +21,15 @@ namespace HealthInsurance.Controllers
         // GET: Testimonials
         public async Task<IActionResult> Index()
         {
-            var modelContext = _context.Testimonials.Include(t => t.User);
+            var modelContext = _context.Testimonials.Include(t => t.User).Where(t => t.Status == "Accepted");
             return View(await modelContext.ToListAsync());
         }
 
         // GET: Testimonials/Details/5
         public async Task<IActionResult> Details(decimal? id)
         {
-            if (id == null || _context.Testimonials == null)
-            {
-                return NotFound();
-            }
-
-            var testimonials = await _context.Testimonials
-                .Include(t => t.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (testimonials == null)
-            {
-                return NotFound();
-            }
-
-            return View(testimonials);
+            var modelContext = _context.Testimonials.Include(t => t.User);
+            return View(await modelContext.ToListAsync());
         }
 
         // GET: Testimonials/Create

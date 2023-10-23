@@ -88,20 +88,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav mx-auto bg-light rounded pe-4 py-3 py-lg-0">
-                    <a href="/Home/Index" class="nav-item nav-link active">Home</a>
+                    <a href="/Home/Index" class="nav-item nav-link">Home</a>
                     <a href="/AboutUs/Index" class="nav-item nav-link">About Us</a>
                     <a href="/Testimonials/Index" class="nav-item nav-link">Testimonials</a>
                     <a href="/ContactUs/Index" class="nav-item nav-link">Contact Us</a>
                 </div>
             </div>
-
+            
             @if (User.Identity.IsAuthenticated)
             {
-                
-                <a href="/Home/Subscriptions/@ViewBag.id" class="btn btn-primary px-3 d-none d-lg-block me-2">Subscribe</a>   
-                <a href="/Home/AddBeneficiaries/@ViewBag.id" class="btn btn-primary px-3 d-none d-lg-block me-2">Add Beneficiaries</a>
-                <a href="/Home/EditProfile/@ViewBag.id" class="btn btn-primary px-3 d-none d-lg-block">Edit Profile</a>
-                <a href="/Auth/Logout" class="btn btn-primary px-3 d-none d-lg-block ms-2">Logout</a>
+                <div class="nav-item dropdown">
+                    <a href="#"
+                       class="nav-item dropdown-toggle btn btn-primary px-3 d-none d-lg-block me-2"
+                       data-bs-toggle="dropdown">Actions</a>
+                    <div class="dropdown-menu bg-light border-0 m-0">
+                        <a href="/Home/EditProfile/@ViewBag.id" class="btn btn-primary px-3 d-none d-lg-block m-2">Edit Profile</a>
+                        <a href="/Home/Subscriptions/@ViewBag.id" class="btn btn-primary px-3 d-none d-lg-block m-2">Subscribe</a>
+                        <a href="/Home/AddBeneficiaries/@ViewBag.id" class="btn btn-primary px-3 d-none d-lg-block m-2">Add Beneficiaries</a>
+                        <a href="/Home/AddTestimonials/@ViewBag.id" class="btn btn-primary px-3 d-none d-lg-block m-2">Add a Testimonial</a>
+                        <a href="/Auth/Logout" class="btn btn-primary px-3 d-none d-lg-block m-2">Logout</a>
+                    </div>
+                </div>
+
             }
             else
             {
@@ -191,13 +199,14 @@
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/HomeAssets/lib/wow/wow.min.js"></script>
     <script src="~/HomeAssets/lib/easing/easing.min.js"></script>
     <script src="~/HomeAssets/lib/waypoints/waypoints.min.js"></script>
     <script src="~/HomeAssets/lib/owlcarousel/owl.carousel.min.js"></script>
     <script src="~/HomeAssets/lib/counterup/counterup.min.js"></script>
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Template Javascript -->
     <script src="~/HomeAssets/js/main.js"></script>
 </body>

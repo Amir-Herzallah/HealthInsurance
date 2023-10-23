@@ -1,0 +1,99 @@
+﻿@model HealthInsurance.Models.Testimonials
+
+@{
+    Layout = "_Layout";
+}
+<style>
+    .appointment {
+        background: linear-gradient(rgba(1, 140, 201, .5), rgba(1, 95, 201, .7)), url(/images/advertising-testimonials-examples.jpg) center center no-repeat;
+        background-size: cover;
+    }
+</style>
+
+<body>
+    <!-- Appointment Start -->
+    <div class="container-fluid appointment my-5 py-3 pb-4 wow fadeIn"
+         data-wow-delay="0.1s">
+        <div class="container py-3">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <div class="bg-white rounded p-4 ms-2 text-center" style="height:30rem width:fit-content">
+                    <div class="bg-white rounded p-3 ">
+                        <div class="d-flex align-items-center bg-primary rounded p-3 mb-2 text-center">
+                            <h5 class="text-white mb-2 p-1"
+                                style="margin-left: 10rem;
+                                margin-block-start: 0.5em;">
+                                Add Testimonial
+                            </h5>
+                        </div>
+                    </div>
+                    <form method="post" asp-action="AddTestimonials" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row g-3">
+                            <div class="form-group hidden">
+                                <select asp-for="Userid" class="form-control" asp-items="ViewBag.Userid" style="display:none"></select>
+                            </div>
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-floating text-center">
+                                    <fieldset>
+                                        <legend for="Rating" class="mb-2">Rating</legend>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" asp-for="Rating" value="1" class="form-check-input"> 1 Star
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" asp-for="Rating" value="2" class="form-check-input"> 2 Stars
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" asp-for="Rating" value="3" class="form-check-input"> 3 Stars
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" asp-for="Rating" value="4" class="form-check-input"> 4 Stars
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" asp-for="Rating" value="5" class="form-check-input"> 5 Stars
+                                            </label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <textarea asp-for="Commentt" type="text" class="form-control" id="Commentt" placeholder="Your Comment" required></textarea>
+                                    <label asp-form="Commentt">Your Comment</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group hidden">
+                                    <input asp-for="Status" type="hidden" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group hidden">
+                                    <input asp-for="SubmissionDate" type="hidden" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-12 text-center mt-4 mb-4">
+                                <button class="btn btn-primary py-3 px-5" type="submit">
+                                    Submit Your Testimonial
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

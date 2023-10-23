@@ -129,7 +129,6 @@ namespace HealthInsurance.Controllers
             HttpContext.Session.Clear();
 
             await Task.Run(async () => await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme));
-
             return RedirectToAction("Index", "Home");
         }
     }

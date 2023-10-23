@@ -180,12 +180,12 @@ namespace HealthInsurance.Controllers
 
                         MailMessage mailMessage = new MailMessage
                         {
-                            From = new MailAddress(ViewBag.email),
+                            From = new MailAddress("amirherzalla8@gmail.com"),
                             Subject = "Beneficiary Added!",
                             Body = "Congrats! you have added a beneficiary successfully."
                         };
 
-                        mailMessage.To.Add("amir.herzalla123@gmail.com"); 
+                        mailMessage.To.Add(ViewBag.Email); 
 
                         var pdfFileName = GenerateInvoicePDF(ViewBag.name, ViewBag.CurrentDate, 50.0, ViewBag.BeneName, ViewBag.BeneRelToSub); // Pass the required data for the invoice
 
@@ -220,18 +220,17 @@ namespace HealthInsurance.Controllers
 
                 // Add a border around the page
                 PdfContentByte cb = writer.DirectContent;
-                float margin = 30; // Adjust the margin as needed
+                float margin = 30;
                 cb.SetLineWidth(2);
                 cb.Rectangle(margin, margin, document.PageSize.Width - 2 * margin, document.PageSize.Height - 2 * margin);
                 cb.Stroke();
 
-                // Add a logo inside the border at the top center
                 string logoPath = Path.Combine(webHostEnvironment.WebRootPath + "/HomeAssets/img/icon/" + "icon-02-primary.png");
                 iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(logoPath);
                 logo.SetAbsolutePosition((document.PageSize.Width - logo.ScaledWidth) / 2, document.PageSize.Height - 130); // Adjust the position as needed
                 document.Add(logo);
 
-                // Add some space
+                // Some space
                 for (int i = 0; i < 3; i++)
                 {
                     document.Add(new Paragraph(" "));
@@ -244,6 +243,7 @@ namespace HealthInsurance.Controllers
                 }
                 document.Add(heading);
                 document.Add(new Paragraph(" "));
+                //Loop around the benes in a viewdata
                 document.Add(new Paragraph($"Customer Name: {customerName}"));
                 document.Add(new Paragraph($"Date: {currentDate.ToShortDateString()}"));
                 document.Add(new Paragraph($"Amount Paid: ${amount}"));
@@ -255,5 +255,60 @@ namespace HealthInsurance.Controllers
 
             return pdfFileName;
         }
+        public IActionResult AdminManageTestimonials()
+        {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.UsersCount = _context.Users.Count();
+            ViewBag.SubsCount = _context.Subscriptions.Count();
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.BeneId = HttpContext.Session.GetInt32("BeneId");
+            ViewBag.BeneName = HttpContext.Session.GetString("BeneName");
+            ViewBag.BeneRelToSub = HttpContext.Session.GetString("BeneRelToSub");
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+            ViewBag.id = HttpContext.Session.GetInt32("testiId");
+            ViewBag.name = HttpContext.Session.GetString("testiName");
+            ViewBag.email = HttpContext.Session.GetString("testiEmail");
+            ViewBag.CurrentDate = DateTime.Now;
+
+            var testimonials = _context.Testimonials.Include(u => u.User);
+
+            return View(testimonials);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateTestimonialStatus(int userid, string newStatus)
+        {
+            var testimonials = _context.Testimonials.Include(u=>u.User).FirstOrDefault(t => t.Id == userid);
+            
+            HttpContext.Session.SetInt32("testiId", (Int32)testimonials.Userid);
+            HttpContext.Session.SetString("testiName", testimonials.User.Username);
+            HttpContext.Session.SetString("testiEmail", testimonials.User.Email);
+            HttpContext.Session.SetString("testiPhoneNumber", testimonials.User.PhoneNumber);
+            HttpContext.Session.SetString("testiProfilePic", testimonials.User.ProfilePictureUrl);
+
+            ViewBag.testiId = HttpContext.Session.GetInt32("testiId");
+            ViewBag.testiName = HttpContext.Session.GetString("testiName");
+            ViewBag.testiEmail = HttpContext.Session.GetString("testiEmail");
+            ViewBag.CurrentDate = DateTime.Now;
+
+            if (testimonials != null)
+            {
+                testimonials.Status = newStatus;
+                await _context.SaveChangesAsync();
+            }
+
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+
+            return RedirectToAction("AdminManageTestimonials");
+        }
+
     }
 }

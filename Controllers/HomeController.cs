@@ -41,7 +41,9 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
-            return View();
+
+            var homePage = _context.HomePage.ToList();
+            return View(homePage);
         }
 
         public IActionResult Privacy()
@@ -434,6 +436,48 @@ namespace HealthInsurance.Controllers
             return RedirectToAction("AddBeneficiaries", "Home");
         }
 
+        // GET: Testimonials/Create
+        public IActionResult AddTestimonials()
+        {
+            ViewBag.BeneId = HttpContext.Session.GetInt32("BeneId");
+            ViewBag.BeneName = HttpContext.Session.GetString("BeneName");
+            ViewBag.BeneRelToSub = HttpContext.Session.GetString("BeneRelToSub");
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+
+            ViewData["Userid"] = new SelectList(_context.Users, "Id", "Id");
+            return View();
+        }
+
+        // POST: Testimonials/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTestimonials([Bind("Id,Userid,Rating,Commentt,SubmissionDate,Status")] Testimonials testimonials)
+        {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            testimonials.Userid = ViewBag.id;
+
+            testimonials.Status = "Pending";
+            testimonials.SubmissionDate = DateTime.Now.Date;
+
+            _context.Add(testimonials);
+            await _context.SaveChangesAsync();
+            
+
+            ViewData["Userid"] = new SelectList(_context.Users, "Id", "Id", testimonials.Userid);
+            TempData["TestimonialSuccess"] = "Your testimonial has been successfully submitted. It will be reviewed by our admins";
+
+            return RedirectToAction("Index", "Testimonials");
+        }
 
     }
 }

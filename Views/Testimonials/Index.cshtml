@@ -3,7 +3,15 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@if (TempData.ContainsKey("TestimonialSuccess"))
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["TestimonialSuccess"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 <body>
     <!-- Spinner Start -->
     <div id="spinner"
@@ -22,7 +30,7 @@
     </div>
     <!-- Page Header End -->
     <!-- Testimonial Start -->
-    <div class="container-xxl py-5">
+    <div class="container-xxl" style="padding:7rem;">
         <div class="container">
             <div class="text-center mx-auto" style="max-width: 500px">
                 <h1 class="display-6 mb-5">What They Say About Our Insurance</h1>
@@ -43,42 +51,19 @@
                 </div>
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                     <div class="owl-carousel testimonial-carousel">
-                        <div class="testimonial-item text-center">
-                            <img class="img-fluid rounded mx-auto mb-4"
-                                 src="~/HomeAssets/img/testimonial-1.jpg"
-                                 alt="" />
-                            <p class="fs-5">
-                                Dolores sed duo clita tempor justo dolor et stet lorem kasd
-                                labore dolore lorem ipsum. At lorem lorem magna ut et, nonumy
-                                et labore et tempor diam tempor erat.
-                            </p>
-                            <h5>Client Name</h5>
-                            <span>Profession</span>
-                        </div>
-                        <div class="testimonial-item text-center">
-                            <img class="img-fluid rounded mx-auto mb-4"
-                                 src="~/HomeAssets/img/testimonial-2.jpg"
-                                 alt="" />
-                            <p class="fs-5">
-                                Dolores sed duo clita tempor justo dolor et stet lorem kasd
-                                labore dolore lorem ipsum. At lorem lorem magna ut et, nonumy
-                                et labore et tempor diam tempor erat.
-                            </p>
-                            <h5>Client Name</h5>
-                            <span>Profession</span>
-                        </div>
-                        <div class="testimonial-item text-center">
-                            <img class="img-fluid rounded mx-auto mb-4"
-                                 src="~/HomeAssets/img/testimonial-3.jpg"
-                                 alt="" />
-                            <p class="fs-5">
-                                Dolores sed duo clita tempor justo dolor et stet lorem kasd
-                                labore dolore lorem ipsum. At lorem lorem magna ut et, nonumy
-                                et labore et tempor diam tempor erat.
-                            </p>
-                            <h5>Client Name</h5>
-                            <span>Profession</span>
-                        </div>
+                        @foreach (var testimonial in Model)
+                        {
+                            if (testimonial.Status == "Accepted")
+                            {
+                                <div class="testimonial-item text-center">
+                                    <p class="fs-5">
+                                        @testimonial.Commentt
+                                    </p>
+                                    <h5>@testimonial.User.Username</h5>
+                                    <span>Rating: @testimonial.Rating</span>
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
                 <div class="col-lg-3 d-none d-lg-block">
@@ -103,4 +88,3 @@
         <i class="bi bi-arrow-up"></i>
     </a>
 </body>
-</html>

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<HealthInsurance.Models.HomePage>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -36,13 +38,14 @@
                     <h1 class="display-3 text-dark mb-4 mt-4 animated slideInDown">
                       The Best Insurance Begins Here
                     </h1>
-                    <p class="fs-5 text-body mb-5">
-                      Clita erat ipsum et lorem et sit, sed stet lorem sit clita
-                      duo justo magna dolore erat amet
-                    </p>
+                    @foreach (var item in Model)
+                    {
+                        <p class="fs-5 text-body mb-5">
+                            @item.Text1
+                        </p>
+                    }
                     <a href="" class="btn btn-primary py-3 px-5"
-                      >More Details</a
-                    >
+                      >More Details</a>
                   </div>
                 </div>
               </div>
