@@ -56,6 +56,7 @@ namespace HealthInsurance.Controllers
 
                 if (user == null)
                 {
+                    users.RegistrationDate = DateTime.Now;
                     users.Roleid = 2;
                     _context.Add(users);
                     await _context.SaveChangesAsync();

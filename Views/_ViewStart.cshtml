@@ -1,3 +1,12 @@
-﻿@{
+﻿@using HealthInsurance.Controllers;
+@{
     Layout = "_Layout";
+}
+
+@using HealthInsurance.Controllers
+@inject IHomePageService HomePageService
+
+@{
+    var homePageData = HomePageService.GetHomePageContent();
+    ViewData["HomePageData"] = homePageData;
 }

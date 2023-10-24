@@ -1,6 +1,7 @@
 using HealthInsurance.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using HealthInsurance.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Auth/Login"; // Specify your login path
     });
+
+builder.Services.AddScoped<IHomePageService, HomePageService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
