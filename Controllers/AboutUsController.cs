@@ -27,21 +27,11 @@ namespace HealthInsurance.Controllers
         }
 
         // GET: AboutUs/Details/5
-        public async Task<IActionResult> Details(decimal? id)
+        public async Task<IActionResult> Details()
         {
-            if (id == null || _context.AboutUs == null)
-            {
-                return NotFound();
-            }
-
-            var aboutUs = await _context.AboutUs
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (aboutUs == null)
-            {
-                return NotFound();
-            }
-
-            return View(aboutUs);
+              return _context.AboutUs != null ? 
+                          View(await _context.AboutUs.ToListAsync()) :
+                          Problem("Entity set 'ModelContext.AboutUs'  is null.");
         }
 
         // GET: AboutUs/Create

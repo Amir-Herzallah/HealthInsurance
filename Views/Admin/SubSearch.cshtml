@@ -7,11 +7,10 @@
 
 <div class="container mt-3">
     <div class="row justify-content-center">
-        <div class="col-4">
+        <div class="col-5">
             <div class="card">
-                <div class="card-body">
-                    <h1 class="card-title">Search</h1>
-                    <h4 class="card-title">Search between two order dates</h4>
+                <div class="card-body ">
+                    <h4 class="card-title">Search between two subscription dates</h4>
                     <form class="form-inline" asp-action="SubSearch" method="post">
                         <label class="sr-only" for="startDate">Start Date</label>
                         <input type="date" class="form-control mb-2 mr-sm-2" id="startDate" name="startDate" placeholder="Start Date">
@@ -67,7 +66,7 @@
                                 @Html.DisplayFor(modelItem => item.Subscription.Status)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Subscription.StartDate)
+                                @item.Subscription.StartDate.ToShortDateString()
                             </td>
                         </tr>
                     }

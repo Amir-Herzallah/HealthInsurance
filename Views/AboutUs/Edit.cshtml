@@ -2,74 +2,141 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "_AdminLayout";
 }
 
-<h1>Edit</h1>
+<div class="container-fluid wow fadeIn"
+     data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row g-5 p-3">
+            <div class="col-lg-10 wow fadeIn" data-wow-delay="0.5s">
+                <div class="bg-white rounded p-5 ms-2 text-center">
+                    <div class="bg-white rounded p-3 ">
+                        <div class="d-flex align-items-center bg-primary rounded p-3 mb-2 text-center">
+                            <h5 class="text-white mb-2 p-1"
+                                style="margin-left: 23rem;
+                                margin-block-start: 0.67em;">
+                                Edit AboutUs
+                            </h5>
+                        </div>
+                    </div>
+                    <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="LogoPath"
+                                           type="text"
+                                           class="form-control"
+                                           id="LogoPath"
+                                           placeholder="LogoPath" />
+                                    <label for="LogoPath">LogoPath</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="HeaderComponent1"
+                                           type="text"
+                                           class="form-control"
+                                           id="HeaderComponent1"
+                                           placeholder="HeaderComponent1" />
+                                    <label for="HeaderComponent1">Header Component 1</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input asp-for="HeaderComponent2"
+                                           type="text"
+                                           class="form-control"
+                                           id="HeaderComponent2"
+                                           placeholder="HeaderComponent2" />
+                                    <label for="HeaderComponent2">Header Component 2</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input asp-for="FooterComponent1"
+                                           type="text"
+                                           class="form-control"
+                                           id="FooterComponent1"
+                                           placeholder="FooterComponent1" />
+                                    <label for="FooterComponent1">Footer Component 1</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input asp-for="FooterComponent2"
+                                           type="text"
+                                           class="form-control"
+                                           id="FooterComponent2"
+                                           placeholder="FooterComponent2" />
+                                    <label for="FooterComponent2">Footer Component 2</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input asp-for="ImagePath1"
+                                           type="text"
+                                           class="form-control"
+                                           id="ImagePath1"
+                                           placeholder="ImagePath1" />
+                                    <label for="ImagePath1">ImagePath1</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input asp-for="ImagePath2"
+                                           type="text"
+                                           class="form-control"
+                                           id="ImagePath2"
+                                           placeholder="ImagePath2" />
+                                    <label for="ImagePath2">ImagePath2</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input asp-for="Text1"
+                                           type="text"
+                                           class="form-control"
+                                           id="Text1"
+                                           placeholder="Text1" />
+                                    <label for="Text1">Text1</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input asp-for="Text2"
+                                           type="text"
+                                           class="form-control"
+                                           id="Text2"
+                                           placeholder="Text2" />
+                                    <label for="Text2">Text2</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input asp-for="Text3"
+                                           type="text"
+                                           class="form-control"
+                                           id="Text3"
+                                           placeholder="Text3" />
+                                    <label for="Text3">Text3</label>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center mt-4 mb-4">
+                                <button class="btn btn-info py-3 px-5" type="submit">
+                                    Make Changes
+                                </button>
+                            </div>
+                    </form>
+                    <div>
+                        <a asp-action="Index" class="text-decoration-underline fw-bold">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<h4>AboutUs</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="LogoPath" class="control-label"></label>
-                <input asp-for="LogoPath" class="form-control" />
-                <span asp-validation-for="LogoPath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HeaderComponent1" class="control-label"></label>
-                <input asp-for="HeaderComponent1" class="form-control" />
-                <span asp-validation-for="HeaderComponent1" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HeaderComponent2" class="control-label"></label>
-                <input asp-for="HeaderComponent2" class="form-control" />
-                <span asp-validation-for="HeaderComponent2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FooterComponent1" class="control-label"></label>
-                <input asp-for="FooterComponent1" class="form-control" />
-                <span asp-validation-for="FooterComponent1" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FooterComponent2" class="control-label"></label>
-                <input asp-for="FooterComponent2" class="form-control" />
-                <span asp-validation-for="FooterComponent2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImagePath1" class="control-label"></label>
-                <input asp-for="ImagePath1" class="form-control" />
-                <span asp-validation-for="ImagePath1" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImagePath2" class="control-label"></label>
-                <input asp-for="ImagePath2" class="form-control" />
-                <span asp-validation-for="ImagePath2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Text1" class="control-label"></label>
-                <input asp-for="Text1" class="form-control" />
-                <span asp-validation-for="Text1" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Text2" class="control-label"></label>
-                <input asp-for="Text2" class="form-control" />
-                <span asp-validation-for="Text2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Text3" class="control-label"></label>
-                <input asp-for="Text3" class="form-control" />
-                <span asp-validation-for="Text3" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    </div>
+    </div>

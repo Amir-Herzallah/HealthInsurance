@@ -220,6 +220,7 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+
             var check = _context.Bank.FirstOrDefault(x => x.CardNo == bank.CardNo && x.CardHolderName == bank.CardHolderName && x.Cvv == bank.Cvv);
 
             if (check != null)

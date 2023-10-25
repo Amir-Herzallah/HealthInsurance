@@ -33,7 +33,8 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
-
+            string? requests = _context.Beneficiaries.Where(b=>b.Status=="Pending").Count().ToString();
+            ViewBag.requests = requests;
             return View();
         }
         public IActionResult RegUsers()
@@ -164,7 +165,7 @@ namespace HealthInsurance.Controllers
             ViewBag.id = HttpContext.Session.GetInt32("Id");
             ViewBag.name = HttpContext.Session.GetString("Name");
             ViewBag.email = HttpContext.Session.GetString("Email");
-            var SubDate = sub.StartDate; 
+            var SubDate = sub.StartDate;
 
             if (beneficiary != null && beneficiary.BeneficiaryImagePath != null)
             {
@@ -326,6 +327,59 @@ namespace HealthInsurance.Controllers
 
             return RedirectToAction("AdminManageTestimonials");
         }
+        public IActionResult ReportStatistics()
+        {
+            var usersTable = _context.Users.ToList();
+            var subtable = _context.Subscriptions.ToList();
+            var testTable = _context.Testimonials.ToList();
+            var beneTable = _context.Beneficiaries.ToList();
 
+
+            var model = from s in subtable
+                        join u in usersTable on s.Userid equals u.Id
+                        join t in testTable on u.Id equals t.Userid
+                        join b in beneTable on s.Id equals b.Subscriptionid
+                        select new JoinTables { users = u, subscriptions = s, beneficiaries = b, testimonials = t };
+
+            var result = Tuple.Create
+                <IEnumerable<Users>,
+                IEnumerable<Subscriptions>,
+                IEnumerable<JoinTables>,
+                IEnumerable<Testimonials>,
+                IEnumerable<Beneficiaries>>
+                (usersTable, subtable, model, testTable, beneTable);
+
+
+            return View(result);
+        }
+
+        [HttpPost]
+        public IActionResult ReportStatistics(DateTime? startDate, DateTime? endDate)
+        {
+            var usersTable = _context.Users.ToList();
+            var subtable = _context.Subscriptions.ToList();
+            var testTable = _context.Testimonials.ToList();
+            var beneTable = _context.Beneficiaries.ToList();
+
+
+            var model = from s in subtable
+                        join u in usersTable on s.Userid equals u.Id
+                        join t in testTable on u.Id equals t.Userid
+                        join b in beneTable on s.Id equals b.Subscriptionid
+                        select new JoinTables { users = u, subscriptions = s, beneficiaries = b, testimonials = t };
+
+            var result = Tuple.Create
+                <IEnumerable<Users>,
+                IEnumerable<Subscriptions>,
+                IEnumerable<JoinTables>,
+                IEnumerable<Testimonials>,
+                IEnumerable<Beneficiaries>>
+                (usersTable, subtable, model, testTable, beneTable);
+
+            return View(result);
+
+        }
     }
+
 }
+
