@@ -7,6 +7,7 @@ using System.Net.Mime;
 using System.Net;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
+using System.Text;
 
 namespace HealthInsurance.Controllers
 {
@@ -145,9 +146,9 @@ namespace HealthInsurance.Controllers
             // Retrieve the beneficiary from the database
             var beneficiary = _context.Beneficiaries.FirstOrDefault(b => b.Id == beneficiaryId);
             var sub = _context.Subscriptions.FirstOrDefault(s => s.Id == beneficiary.Subscriptionid);
-            var user = _context.Users.Where(x => x.Id == sub.Userid).FirstOrDefault();
+            var user = _context.Users.FirstOrDefault(x => x.Id == sub.Userid);
 
-            HttpContext.Session.SetInt32("Id", (Int32)user.Id);
+            HttpContext.Session.SetInt32("Id", (int)user.Id);
             HttpContext.Session.SetString("Name", user.Username);
             HttpContext.Session.SetString("Email", user.Email);
             HttpContext.Session.SetString("PhoneNumber", user.PhoneNumber);
@@ -163,7 +164,7 @@ namespace HealthInsurance.Controllers
             ViewBag.id = HttpContext.Session.GetInt32("Id");
             ViewBag.name = HttpContext.Session.GetString("Name");
             ViewBag.email = HttpContext.Session.GetString("Email");
-            ViewBag.CurrentDate = DateTime.Now;
+            var SubDate = sub.StartDate; 
 
             if (beneficiary != null && beneficiary.BeneficiaryImagePath != null)
             {
@@ -185,16 +186,31 @@ namespace HealthInsurance.Controllers
                             Body = "Congrats! you have added a beneficiary successfully."
                         };
 
-                        mailMessage.To.Add(ViewBag.Email); 
+                        mailMessage.To.Add(ViewBag.Email);
 
-                        var pdfFileName = GenerateInvoicePDF(ViewBag.name, ViewBag.CurrentDate, 50.0, ViewBag.BeneName, ViewBag.BeneRelToSub); // Pass the required data for the invoice
+                        var subBeneList = _context.Subscriptions
+                            .Include(b => b.Beneficiaries)
+                            .Where(s => s.Id == beneficiary.Subscriptionid)
+                            .ToList();
 
+                        var beneficiaryInfo = new StringBuilder();
+
+                        foreach (var subscription in subBeneList)
+                        {
+                            foreach (var bene in subscription.Beneficiaries)
+                            {
+                                beneficiaryInfo.AppendLine($"Beneficiary Name: {bene.Name}");
+                                beneficiaryInfo.AppendLine($"Beneficiary Relationship to Subscriber: {bene.RelationshipToSubscriber}");
+                                beneficiaryInfo.AppendLine(" ");
+                            }
+                        }
+
+                        var pdfFileName = GenerateBenePDF(ViewBag.name, SubDate, 50.0, beneficiaryInfo.ToString());
                         mailMessage.Attachments.Add(new Attachment(pdfFileName, MediaTypeNames.Application.Pdf));
 
                         smtpClient.Send(mailMessage);
                     }
                 }
-
                 await _context.SaveChangesAsync();
             }
 
@@ -205,7 +221,7 @@ namespace HealthInsurance.Controllers
             return RedirectToAction("AdminManageBeneficiaries");
         }
 
-        public string GenerateInvoicePDF(string customerName, DateTime currentDate, double amount, string beneName, string beneRelToSub)
+        public string GenerateBenePDF(string customerName, DateTime currentDate, double amount, string beneficiaryInfo)
         {
             // Create a new document with borders
             iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 50, 50, 50, 50);
@@ -243,18 +259,19 @@ namespace HealthInsurance.Controllers
                 }
                 document.Add(heading);
                 document.Add(new Paragraph(" "));
-                //Loop around the benes in a viewdata
+                // Add the combined beneficiary information
                 document.Add(new Paragraph($"Customer Name: {customerName}"));
-                document.Add(new Paragraph($"Date: {currentDate.ToShortDateString()}"));
+                document.Add(new Paragraph($"Subscription Date: {currentDate.ToShortDateString()}"));
                 document.Add(new Paragraph($"Amount Paid: ${amount}"));
-                document.Add(new Paragraph($"Beneficiary Name: {beneName}"));
-                document.Add(new Paragraph($"Beneficiary Relationship to Subscriber: {beneRelToSub}"));
+                document.Add(new Paragraph(" "));
+                document.Add(new Paragraph(beneficiaryInfo));
 
                 document.Close();
             }
 
             return pdfFileName;
         }
+
         public IActionResult AdminManageTestimonials()
         {
             ViewBag.id = HttpContext.Session.GetInt32("Id");
@@ -284,8 +301,8 @@ namespace HealthInsurance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateTestimonialStatus(int userid, string newStatus)
         {
-            var testimonials = _context.Testimonials.Include(u=>u.User).FirstOrDefault(t => t.Id == userid);
-            
+            var testimonials = _context.Testimonials.Include(u => u.User).FirstOrDefault(t => t.Id == userid);
+
             HttpContext.Session.SetInt32("testiId", (Int32)testimonials.Userid);
             HttpContext.Session.SetString("testiName", testimonials.User.Username);
             HttpContext.Session.SetString("testiEmail", testimonials.User.Email);
