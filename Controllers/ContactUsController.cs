@@ -23,20 +23,9 @@ namespace HealthInsurance.Controllers
         }
 
         // GET: ContactUs/Details/5
-        public async Task<IActionResult> Details(decimal? id)
+        public IActionResult Details()
         {
-            if (id == null || _context.ContactUs == null)
-            {
-                return NotFound();
-            }
-
-            var contactUs = await _context.ContactUs
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (contactUs == null)
-            {
-                return NotFound();
-            }
-
+            var contactUs = _context.ContactUs.ToList();
             return View(contactUs);
         }
 
@@ -57,6 +46,7 @@ namespace HealthInsurance.Controllers
             {
                 _context.Add(contactUs);
                 await _context.SaveChangesAsync();
+                TempData["MsgSuccess"] = "Message Successfully Sent!";
                 return RedirectToAction(nameof(Index));
             }
             return View(contactUs);
@@ -147,7 +137,7 @@ namespace HealthInsurance.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details","ContactUs");
         }
         private bool ContactUsExists(decimal id)
         {

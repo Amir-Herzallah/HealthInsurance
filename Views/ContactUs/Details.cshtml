@@ -1,48 +1,70 @@
-﻿@model HealthInsurance.Models.ContactUs
+﻿@model IEnumerable<HealthInsurance.Models.ContactUs>
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "_AdminLayout";
 }
 
-<h1>Details</h1>
+<style>
+    .horizontal-table {
+        width: 100%;
+    }
 
-<div>
-    <h4>ContactUs</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LogoPath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LogoPath)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Message)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Message)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Subject)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Subject)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+        .horizontal-table th,
+        .horizontal-table td {
+            width: 50%;
+            text-align: left;
+            border-bottom: 1px solid #ccc; /* Add a border line */
+            padding: 10px;
+        }
+
+        .horizontal-table a {
+            white-space: nowrap;
+        }
+
+    .spacer {
+        height: 20px; /* Adjust the height for desired spacing */
+        border-bottom: 1px solid transparent; /* Add a transparent border to create space */
+    }
+</style>
+
+<div class="row justify-content-center mt-3">
+    <div class="col-10 offset-3">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 50%;">Field</th>
+                    <th style="width: 50%;">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => item.Message)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Message)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => item.Subject)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Subject)</td>
+                    </tr>
+                    <tr>
+                        <td>Edit and Delete</td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr> <!-- Add a spacer row with a line and space -->
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

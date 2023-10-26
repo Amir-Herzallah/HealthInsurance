@@ -3,6 +3,15 @@
 @{
     ViewData["Title"] = "Index";
 }
+@if (TempData.ContainsKey("MsgSuccess"))
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["MsgSuccess"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 
 <body>
     <!-- Spinner Start -->
@@ -31,11 +40,12 @@
                     <form asp-action="Create">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <div class="form-floating">
+                                <div class="form-floating" required>
                                     <input type="text"
                                            class="form-control"
                                            asp-for="Name"
-                                           placeholder="Your Name" />
+                                           placeholder="Your Name"
+                                           required />
                                     <label for="name">Your Name</label>
                                 </div>
                             </div>
@@ -44,7 +54,8 @@
                                     <input type="email"
                                            class="form-control"
                                            asp-for="Email"
-                                           placeholder="Your Email" />
+                                           placeholder="Your Email"
+                                           required />
                                     <label asp-for="Email">Your Email</label>
                                 </div>
                             </div>
@@ -53,7 +64,8 @@
                                     <input type="text"
                                            class="form-control"
                                            asp-for="Subject"
-                                           placeholder="Subject" />
+                                           placeholder="Subject"
+                                           required />
                                     <label asp-for="Subject">Subject</label>
                                 </div>
                             </div>
@@ -62,7 +74,8 @@
                                     <textarea class="form-control"
                                               placeholder="Leave a message here"
                                               asp-for="Message"
-                                              style="height: 100px"></textarea>
+                                              style="height: 100px"
+                                              required></textarea>
                                     <label asp-for="Message">Message</label>
                                 </div>
                             </div>

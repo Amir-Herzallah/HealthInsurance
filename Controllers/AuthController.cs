@@ -99,7 +99,7 @@ namespace HealthInsurance.Controllers
                         HttpContext.Session.SetString("Email", auth.Email);
                         HttpContext.Session.SetString("PhoneNumber", auth.PhoneNumber);
                         HttpContext.Session.SetString("ProfilePic", auth.ProfilePictureUrl);
-                        
+
                         HttpContext.Session.SetInt32("userLoginId", (Int32)auth.Id);
                         HttpContext.Session.SetString("userLoginEmail", auth.Email);
                         HttpContext.Session.SetString("userLoginName", auth.Username);
@@ -110,7 +110,7 @@ namespace HealthInsurance.Controllers
                         HttpContext.Session.SetString("Email", auth.Email);
                         HttpContext.Session.SetString("PhoneNumber", auth.PhoneNumber);
                         HttpContext.Session.SetString("ProfilePic", auth.ProfilePictureUrl);
-                       
+
                         HttpContext.Session.SetInt32("userLoginId", (Int32)auth.Id);
                         HttpContext.Session.SetString("userLoginEmail", auth.Email);
                         HttpContext.Session.SetString("userLoginName", auth.Username);

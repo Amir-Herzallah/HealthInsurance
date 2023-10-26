@@ -32,7 +32,7 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
-            return _context.AboutUs != null ? 
+            return _context.AboutUs != null ?
                           View(await _context.AboutUs.ToListAsync()) :
                           Problem("Entity set 'ModelContext.AboutUs'  is null.");
         }
@@ -51,7 +51,7 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
-            return _context.AboutUs != null ? 
+            return _context.AboutUs != null ?
                           View(await _context.AboutUs.ToListAsync()) :
                           Problem("Entity set 'ModelContext.AboutUs'  is null.");
         }
@@ -194,14 +194,14 @@ namespace HealthInsurance.Controllers
             {
                 _context.AboutUs.Remove(aboutUs);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AboutUsExists(decimal id)
         {
-          return (_context.AboutUs?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.AboutUs?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -33,7 +33,7 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
-            string? requests = _context.Beneficiaries.Where(b=>b.Status=="Pending").Count().ToString();
+            string? requests = _context.Beneficiaries.Where(b => b.Status == "Pending").Count().ToString();
             ViewBag.requests = requests;
             return View();
         }
