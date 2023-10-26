@@ -9,23 +9,20 @@
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="page-header">
-            <h3 class="page-title"> Basic Tables </h3>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Tables</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Basic tables</li>
-                </ol>
-            </nav>
+            <h3 class="page-title"> Reports Tables </h3>
+
         </div>
         <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
+            <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <table id="table1" class="table ">
                             <thead>
                                 <tr>
                                     <th>Customer Name</th>
+                                    <th>Customer Phone Number</th>
                                     <th>Subscription Date</th>
+                                    <th>Subscription Status</th>
                                     <th>Total Beneficiaries</th>
                             </thead>
                             <tbody>
@@ -35,7 +32,9 @@
                                     {
                                         <tr>
                                             <td> @item.users.Username</td>
-                                            <td> @item.subscriptions.StartDate</td>
+                                            <td> @item.users.PhoneNumber</td>
+                                            <td> @item.subscriptions.StartDate.Date.ToShortDateString()</td>
+                                            <td> @item.subscriptions.Status</td>
                                             @if (item.beneficiaries != null)
                                             {
                                                 <td> @item.subscriptions.Beneficiaries.Count</td>
@@ -89,36 +88,64 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 offset-3 grid-margin stretch-card">
+            <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        <!-- Select elements for choosing the month and year -->
+                        <label for="monthSelect">Select Month:</label>
+                        <select id="monthSelect">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+
+                        <label for="yearSelect">Select Year:</label>
+                        <select id="yearSelect">
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                        </select>
+
                         <table id="table3" class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th> Period </th>
                                     <th> # of subscriptions </th>
                                     <th> Profit </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @{
-                                    double totalProfit = 0;
-                                    int subCount = 0;
-                                    foreach (var item in Model.Item3)
-                                    {
-                                        totalProfit = totalProfit + (double)item.subscriptions.Amount;
-                                        subCount = subCount + 1;
-                                    }
-                                    <tr>
-                                        <td>@subCount</td>
-                                        <td>@totalProfit</td>
-                                    </tr>
-                                }
+                                @* Create placeholders for the monthly and annual totals that will be updated by JavaScript *@
+                                <tr>
+                                    <td>Monthly</td>
+                                    <td id="subCountMonthly">0</td>
+                                    <td id="totalProfitMonthly">0</td>
+                                </tr>
+                                <tr>
+                                    <td>Annual</td>
+                                    <td id="subCountAnnual">0</td>
+                                    <td id="totalProfitAnnual">0</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
     <div class="content-wrapper">
         <div class="row">
@@ -213,8 +240,8 @@
         }
     }
 
-                // Create a chart for total profit by year
-                var profitCanvas = document.getElementById('lineChart');
+                            // Create a chart for total profit by year
+                            var profitCanvas = document.getElementById('lineChart');
         var profitChart = new Chart(profitCanvas, {
             type: 'line',
             data: {
@@ -264,5 +291,59 @@
         });
     });
 </script>
+<!-- Add an event handler to update the table when month or year is changed -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Function to update the table based on selected month and year
+        function updateTable() {
+            var selectedMonth = document.getElementById("monthSelect").value;
+            var selectedYear = document.getElementById("yearSelect").value;
 
+            // Initialize variables to track monthly and annual totals
+            var totalProfitMonthly = 0;
+            var subCountMonthly = 0;
+            var totalProfitAnnual = 0;
+            var subCountAnnual = 0;
+
+            // Iterate over your server-side data (Model.Item3) in JavaScript
+            var data = @Html.Raw(Json.Serialize(Model.Item3.ToArray())); // Access $values array
+
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                if (item.users && item.users.subscription) {
+                    var subscription = item.users.subscription;
+                    var profit = subscription.amount;
+                    var subscriptionStartDate = new Date(subscription.startDate);
+                    var subscriptionMonth = subscriptionStartDate.getMonth() + 1; // JavaScript months are 0-indexed
+                    var subscriptionYear = subscriptionStartDate.getFullYear();
+
+                    // Check if the subscription falls within the selected month and year
+                    if (subscriptionMonth == selectedMonth && subscriptionYear == selectedYear) {
+                        totalProfitMonthly += profit;
+                        subCountMonthly++;
+                    }
+
+                    // Check if the subscription falls within the selected year
+                    if (subscriptionYear == selectedYear) {
+                        totalProfitAnnual += profit;
+                        subCountAnnual++;
+                    }
+                }
+            }
+
+            // Update the table with the new values
+            document.getElementById("subCountMonthly").textContent = subCountMonthly;
+            document.getElementById("totalProfitMonthly").textContent = totalProfitMonthly;
+            document.getElementById("subCountAnnual").textContent = subCountAnnual;
+            document.getElementById("totalProfitAnnual").textContent = totalProfitAnnual;
+        }
+
+        // Attach change event listeners to the select elements
+        document.getElementById("monthSelect").addEventListener("change", updateTable);
+        document.getElementById("yearSelect").addEventListener("change", updateTable);
+
+        // Initialize the table when the page loads
+        updateTable();
+    });
+</script>
 

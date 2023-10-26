@@ -38,6 +38,17 @@ namespace HealthInsurance.Controllers
         // GET: HomePage/Details/5
         public async Task<IActionResult> Details(decimal? id)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.UsersCount = _context.Users.Count();
+            ViewBag.SubsCount = _context.Subscriptions.Count();
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             if (id == null || _context.HomePage == null)
             {
                 return NotFound();
@@ -107,6 +118,17 @@ namespace HealthInsurance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(decimal id, [Bind("Id,LogoPath,HeaderComponent1,HeaderComponent2,FooterComponent1,FooterComponent2,ImagePath1,ImagePath2,Text1,Text2,Text3")] HomePage homePage)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.UsersCount = _context.Users.Count();
+            ViewBag.SubsCount = _context.Subscriptions.Count();
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             if (id != homePage.Id)
             {
                 return NotFound();
@@ -138,6 +160,17 @@ namespace HealthInsurance.Controllers
         // GET: HomePage/Delete/5
         public async Task<IActionResult> Delete(decimal? id)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.UsersCount = _context.Users.Count();
+            ViewBag.SubsCount = _context.Subscriptions.Count();
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             if (id == null || _context.HomePage == null)
             {
                 return NotFound();
@@ -158,6 +191,17 @@ namespace HealthInsurance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(decimal id)
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.UsersCount = _context.Users.Count();
+            ViewBag.SubsCount = _context.Subscriptions.Count();
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             if (_context.HomePage == null)
             {
                 return Problem("Entity set 'ModelContext.HomePage'  is null.");

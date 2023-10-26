@@ -329,6 +329,17 @@ namespace HealthInsurance.Controllers
         }
         public IActionResult ReportStatistics()
         {
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
+            ViewBag.UsersCount = _context.Users.Count();
+            ViewBag.SubsCount = _context.Subscriptions.Count();
+            ViewBag.CurrentDate = DateTime.Now;
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             var usersTable = _context.Users.ToList();
             var subtable = _context.Subscriptions.ToList();
             var testTable = _context.Testimonials.ToList();
