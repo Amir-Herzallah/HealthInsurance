@@ -10,7 +10,6 @@
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title"> Reports Tables </h3>
-
         </div>
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
@@ -26,25 +25,32 @@
                                     <th>Total Beneficiaries</th>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.Item3)
-                                {
-                                    if (item.subscriptions.Status == "Subscribed")
+                                @{
+                                    var encounteredUsernames = new HashSet<string>(); // To track encountered usernames
+
+                                    foreach (var item in Model.Item3)
                                     {
-                                        <tr>
-                                            <td> @item.users.Username</td>
-                                            <td> @item.users.PhoneNumber</td>
-                                            <td> @item.subscriptions.StartDate.Date.ToShortDateString()</td>
-                                            <td> @item.subscriptions.Status</td>
-                                            @if (item.beneficiaries != null)
-                                            {
-                                                <td> @item.subscriptions.Beneficiaries.Count</td>
-                                            }
-                                            else
-                                            {
-                                                <td>No Beneficiaries</td>
-                                            }
-                                            @* <td><label class="badge badge-danger">Pending</label></td> *@
-                                        </tr>
+                                        if (!encounteredUsernames.Contains(item.users.Username))
+                                        {
+                                            var bene = Model.Item5.FirstOrDefault(t => item.users.Subscription.Id == t.Subscriptionid);
+                                            <tr>
+                                                <td> @item.users.Username</td>
+                                                <td> @item.users.PhoneNumber</td>
+                                                <td> @item.subscriptions.StartDate.Date.ToShortDateString()</td>
+                                                <td> @item.subscriptions.Status</td>
+                                                @{
+                                                    if (bene != null)
+                                                    {
+                                                        <td> @item.subscriptions.Beneficiaries.Count</td>
+                                                    }
+                                                    else if (bene == null)
+                                                    {
+                                                        <td>No Beneficiaries</td>
+                                                    }
+                                                }
+                                            </tr>
+                                            encounteredUsernames.Add(item.users.Username); // Add the username to the set
+                                        }
                                     }
                                 }
                             </tbody>
@@ -58,26 +64,35 @@
                         <table id="table2" class="table table-hover">
                             <thead>
                                 <tr>
+                                    <th>Customer Name</th>
                                     <th>Testimonial</th>
                                     <th>Rating</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @{
+                                    var encounteredTestimonials = new HashSet<string>(); // To track encountered testimonials
+
                                     double totalRating = 0;
                                     double totalRatingsCount = 0;
 
                                     foreach (var item in Model.Item3)
                                     {
-                                        <tr>
-                                            <td> @item.testimonials.Commentt</td>
-                                            <td> @item.testimonials.Rating</td>
-                                        </tr>
-                                        totalRating = totalRating + (double)item.testimonials.Rating;
-                                        totalRatingsCount++;
+                                        if (!encounteredTestimonials.Contains(item.testimonials.Commentt))
+                                        {
+                                            <tr>
+                                                <td> @item.users.Username</td>
+                                                <td> @item.testimonials.Commentt</td>
+                                                <td> @item.testimonials.Rating</td>
+                                            </tr>
+                                            encounteredTestimonials.Add(item.testimonials.Commentt); // Add the testimonial to the set
+                                            totalRating = totalRating + (double)item.testimonials.Rating;
+                                            totalRatingsCount++;
+                                        }
                                     }
                                     var averageRating = totalRating / totalRatingsCount;
                                     <tr>
+                                        <td colspan="1"></td>
                                         <td><strong>Average Rating:</strong></td>
                                         <td>@averageRating</td>
                                     </tr>
@@ -217,81 +232,6 @@
         });
     });
 </script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Extract the data for the charts from Model.Item3
-        var years = [];
-        var totalProfitData = [];
-        var subscriptionCountData = [];
-
-    @foreach (var item in Model.Item3)
-    {
-        var subscriptionDate = item.subscriptions.StartDate;
-        var year = subscriptionDate.Year;
-        var profit = (double)item.subscriptions.Amount;
-        var subscriptionCount = 1; // Assuming each item represents one subscription
-
-        if (item.subscriptions.Status == "Subscribed")
-        {
-            @:years.push('@year');
-            @:totalProfitData.push(@profit);
-            @:subscriptionCountData.push(@subscriptionCount);
-        }
-    }
-
-                            // Create a chart for total profit by year
-                            var profitCanvas = document.getElementById('lineChart');
-        var profitChart = new Chart(profitCanvas, {
-            type: 'line',
-            data: {
-                labels: years,
-                datasets: [{
-                    label: 'Total Profit',
-                    data: totalProfitData,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
-        // Create a chart for subscription count by year
-        var subscriptionCanvas = document.getElementById('barChart');
-        var subscriptionChart = new Chart(subscriptionCanvas, {
-            type: 'bar',
-            data: {
-                labels: years,
-                datasets: [{
-                    label: 'Subscription Count',
-                    data: subscriptionCountData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    });
-</script>
-<!-- Add an event handler to update the table when month or year is changed -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Function to update the table based on selected month and year
@@ -346,4 +286,83 @@
         updateTable();
     });
 </script>
+ 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Extract the data for the charts from Model.Item3
+        var years = [];
+        var totalProfitData = [];
+        var subscriptionCountData = [];
 
+    @{
+        var encounteredUsers = new HashSet<string>();
+        foreach (var item in Model.Item3)
+        {
+            if (!encounteredUsers.Contains(item.users.Username))
+            {
+                var subscriptionDate = item.subscriptions.StartDate;
+                var year = subscriptionDate.Year;
+                var profit = (double)item.subscriptions.Amount;
+                var subscriptionCount = 1; // Assuming each item represents one subscription
+
+                if (item.subscriptions.Status == "Subscribed")
+                {
+                    @:years.push(@year);
+                    @:totalProfitData.push(@profit);
+                    @:subscriptionCountData.push(@subscriptionCount);
+                }
+                encounteredUsers.Add(item.users.Username);
+            }
+        }
+    }
+        var profitCanvas = document.getElementById('lineChart');
+        var profitChart = new Chart(profitCanvas, {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [{
+                    label: 'Total Profit',
+                    data: totalProfitData,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Create a chart for subscription count by year
+        var subscriptionCanvas = document.getElementById('barChart');
+        var subscriptionChart = new Chart(subscriptionCanvas, {
+            type: 'bar',
+            data: {
+                labels: years,
+                datasets: [{
+                    label: 'Subscription Count',
+                    data: subscriptionCountData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
+ 
