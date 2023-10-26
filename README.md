@@ -1,4 +1,4 @@
-**Insured**
+**Insure**
 Healthcare .NET Core MVC Website
 
 Table of Contents
@@ -12,7 +12,7 @@ Table of Contents
 
 
 1. Introduction
-The Insured website is designed to provide a subscription-based health insurance service for individuals and families. Users can easily subscribe to organizations offering healthcare coverage. This document outlines the project's key features and functionality.
+Insure website is designed to provide a subscription-based health insurance service for individuals and families. Users can easily subscribe to organizations offering healthcare coverage. This document outlines the project's key features and functionality.
 
   1.1 Objectives
   The primary objectives of the Insured website are:
@@ -22,7 +22,7 @@ The Insured website is designed to provide a subscription-based health insurance
   Generate reports and statistics for both users and administrators.
 
 2. System Overview
-The Insured system is a dynamic and responsive web application designed to facilitate medical care subscription and management. It comprises the following main components:
+The Insure system is a dynamic and responsive web application designed to facilitate medical care subscription and management. It comprises the following main components:
 
   Subscribe to an organization.
   Add a request.
