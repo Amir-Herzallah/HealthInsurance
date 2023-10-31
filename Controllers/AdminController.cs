@@ -39,7 +39,6 @@ namespace HealthInsurance.Controllers
         }
         public IActionResult RegUsers()
         {
-            var usersInfo = _context.Users.Include(s => s.Subscription.Beneficiaries).ToList();
             ViewBag.id = HttpContext.Session.GetInt32("Id");
             ViewBag.name = HttpContext.Session.GetString("Name");
             ViewBag.email = HttpContext.Session.GetString("Email");
@@ -52,6 +51,8 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
 
+            var usersInfo = _context.Users.Include(s => s.Subscription.Beneficiaries).ToList();
+         
             return View(usersInfo);
         }
         //GET
@@ -144,7 +145,6 @@ namespace HealthInsurance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateBeneficiaryStatus(int beneficiaryId, string newStatus)
         {
-            // Retrieve the beneficiary from the database
             var beneficiary = _context.Beneficiaries.FirstOrDefault(b => b.Id == beneficiaryId);
             var sub = _context.Subscriptions.FirstOrDefault(s => s.Id == beneficiary.Subscriptionid);
             var user = _context.Users.FirstOrDefault(x => x.Id == sub.Userid);

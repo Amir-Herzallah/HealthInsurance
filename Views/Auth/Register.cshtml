@@ -98,9 +98,19 @@
                                     <button class="btn btn-primary py-3 px-5" type="submit">
                                         Register
                                     </button>
+                                    
                                 </div>
                         </form>
                     </div>
+                    @if (TempData.ContainsKey("RegisterFail"))
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            @TempData["RegisterFail"]
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
                     <p>Already Have an Account? <a href="/Auth/Login" class="text-decoration-underline fw-bold">Login</a></p>
                 </div>
             </div>

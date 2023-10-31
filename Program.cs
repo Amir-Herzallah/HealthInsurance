@@ -6,9 +6,10 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddDbContext<ModelContext>(options => options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddSession(
     options => {
         options.IdleTimeout = TimeSpan.FromMinutes(15);
@@ -20,11 +21,10 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
     options.AddPolicy("User", policy => policy.RequireRole("User"));
 });
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Auth/Login"; // Specify your login path
+        options.LoginPath = "/Auth/Login";
     });
 
 builder.Services.AddScoped<IHomePageService, HomePageService>();

@@ -30,6 +30,7 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+
             return _context.HomePage != null ? 
                           View(await _context.HomePage.ToListAsync()) :
                           Problem("Entity set 'ModelContext.HomePage'  is null.");

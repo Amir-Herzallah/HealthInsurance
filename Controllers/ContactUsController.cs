@@ -19,12 +19,28 @@ namespace HealthInsurance.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
             return View();
         }
 
         // GET: ContactUs/Details/5
         public IActionResult Details()
         {
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
             var contactUs = _context.ContactUs.ToList();
             return View(contactUs);
         }
@@ -55,6 +71,14 @@ namespace HealthInsurance.Controllers
         // GET: ContactUs/Edit/5
         public async Task<IActionResult> Edit(decimal? id)
         {
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
             if (id == null || _context.ContactUs == null)
             {
                 return NotFound();
@@ -106,6 +130,14 @@ namespace HealthInsurance.Controllers
         // GET: ContactUs/Delete/5
         public async Task<IActionResult> Delete(decimal? id)
         {
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+            ViewBag.id = HttpContext.Session.GetInt32("Id");
+            ViewBag.name = HttpContext.Session.GetString("Name");
+            ViewBag.email = HttpContext.Session.GetString("Email");
+            ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
             if (id == null || _context.ContactUs == null)
             {
                 return NotFound();
@@ -126,6 +158,9 @@ namespace HealthInsurance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(decimal id)
         {
+            ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
+            ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
+            ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
             if (_context.ContactUs == null)
             {
                 return Problem("Entity set 'ModelContext.ContactUs'  is null.");

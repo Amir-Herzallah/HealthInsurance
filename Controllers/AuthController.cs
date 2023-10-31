@@ -28,9 +28,10 @@ namespace HealthInsurance.Controllers
         }
         public IActionResult Login()
         {
-            ViewBag.Name = HttpContext.Session.GetString("Username");
+            //ViewBag.Name = HttpContext.Session.GetString("Username");
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([Bind("Id,Username,Password,Email,PhoneNumber,RegistrationDate,ProfilePictureUrl,ProfilePictureFile")] Users users)
@@ -60,16 +61,12 @@ namespace HealthInsurance.Controllers
                     users.Roleid = 2;
                     _context.Add(users);
                     await _context.SaveChangesAsync();
+                    TempData["RegisterSuccess"] = "Registration complete! Proceed to login.";
                     return RedirectToAction("Login", "Auth");
                 }
-                else
-                {
-                    ViewBag.Error = "Email Already Used, try another email.";
-                }
-
             }
-
-            return View("~/Home/Index");
+            TempData["RegisterFail"] = "Email Already Used, try another email.";
+            return RedirectToAction("Register", "Auth");
         }
 
         [HttpPost]
@@ -119,7 +116,7 @@ namespace HealthInsurance.Controllers
             }
             else
             {
-                ViewBag.Error = "Invalid Credentials!";
+                TempData["LoginFail"] = "Invalid Credentials!";
             }
 
             return View();

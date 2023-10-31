@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic; // Add using for System.Collections.Generic
-using HealthInsurance.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using HealthInsurance.Models;
 
 namespace HealthInsurance.Controllers
 {

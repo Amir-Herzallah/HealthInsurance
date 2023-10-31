@@ -1,10 +1,11 @@
 ﻿@using HealthInsurance.Controllers
 
 @{
-    // Retrieve the shared data from ViewData
+    
     var homePageData = ViewData["HomePageData"] as IEnumerable<HomePage>;
     
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -146,8 +147,7 @@
                                  alt="" />@item.FooterComponent1
                         </h1>
                         <p>
-                            Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat
-                            ipsum et lorem et sit, sed stet lorem sit clita
+                            Health insurance is not just a service; it's a shield that guards us against the uncertainties of life.
                         </p>
                         <div class="d-flex pt-2">
                             <a class="btn btn-square me-1" href="">
@@ -184,7 +184,7 @@
                         <div class="position-relative mx-auto" style="max-width: 400px;">
                             <button type="button"
                                     class="btn btn-secondary py-2 top-0 end-0 mt-2 me-2">
-                                <a href="/Auth/Register">SignUp</a>
+                                <a href="/Auth/Register">Sign Up</a>
                             </button>
                         </div>
                     </div>

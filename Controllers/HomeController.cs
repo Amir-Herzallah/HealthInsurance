@@ -94,80 +94,67 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginId = HttpContext.Session.GetInt32("userLoginId");
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
+
             if (id != users.Id)
             {
                 return NotFound();
             }
-            try
+
+            var existingUser = await _context.Users.FindAsync(users.Id);
+
+            if (existingUser != null)
             {
-                var existingUser = await _context.Users.FindAsync(users.Id);
-
-                if (existingUser != null)
+                if (!string.IsNullOrEmpty(users.Username))
                 {
-                    // Update only the fields that the user has modified and are not empty
-                    if (!string.IsNullOrEmpty(users.Username))
-                    {
-                        existingUser.Username = users.Username;
-                    }
-                    if (!string.IsNullOrEmpty(users.Password))
-                    {
-                        existingUser.Password = users.Password;
-                    }
-                    if (!string.IsNullOrEmpty(users.Email))
-                    {
-                        existingUser.Email = users.Email;
-                    }
-                    if (!string.IsNullOrEmpty(users.PhoneNumber))
-                    {
-                        existingUser.PhoneNumber = users.PhoneNumber;
-                    }
-                    if (!string.IsNullOrEmpty(users.ProfilePictureUrl))
-                    {
-                        existingUser.ProfilePictureUrl = users.ProfilePictureUrl;
-                    }
-
-                    // Handle file upload (ProfilePictureFile) if needed
-                    if (users.ProfilePictureFile != null)
-                    {
-                        string wwwRootPath = webHostEnvironment.WebRootPath;
-                        string fileName = Guid.NewGuid().ToString() + users.ProfilePictureFile.FileName;
-                        string path = Path.Combine(wwwRootPath, "images", fileName);
-
-                        using (var fileStream = new FileStream(path, FileMode.Create))
-                        {
-                            await users.ProfilePictureFile.CopyToAsync(fileStream);
-                        }
-
-                        existingUser.ProfilePictureUrl = fileName;
-                    }
-
-                    _context.Update(existingUser);
-                    await _context.SaveChangesAsync();
-
-                    if (existingUser.Roleid == 1)
-                    {
-                        return RedirectToAction("Index", "Admin");
-                    }
-                    else if (existingUser.Roleid == 2)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    existingUser.Username = users.Username;
                 }
-                else
+                if (!string.IsNullOrEmpty(users.Password))
                 {
-                    return NotFound();
+                    existingUser.Password = users.Password;
+                }
+                if (!string.IsNullOrEmpty(users.Email))
+                {
+                    existingUser.Email = users.Email;
+                }
+                if (!string.IsNullOrEmpty(users.PhoneNumber))
+                {
+                    existingUser.PhoneNumber = users.PhoneNumber;
+                }
+                if (!string.IsNullOrEmpty(users.ProfilePictureUrl))
+                {
+                    existingUser.ProfilePictureUrl = users.ProfilePictureUrl;
+                }
+
+                if (users.ProfilePictureFile != null)
+                {
+                    string wwwRootPath = webHostEnvironment.WebRootPath;
+                    string fileName = Guid.NewGuid().ToString() + users.ProfilePictureFile.FileName;
+                    string path = Path.Combine(wwwRootPath, "images", fileName);
+
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await users.ProfilePictureFile.CopyToAsync(fileStream);
+                    }
+
+                    existingUser.ProfilePictureUrl = fileName;
+                }
+
+                _context.Update(existingUser);
+                await _context.SaveChangesAsync();
+
+                if (existingUser.Roleid == 1)
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else if (existingUser.Roleid == 2)
+                {
+                    TempData["EditSuccess"] = "You have edited your profile successfully!";
+                    return RedirectToAction("EditProfile", "Home");
                 }
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!UsersExists(users.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             ViewData["Roleid"] = new SelectList(_context.Roles, "Id", "Id", users.Roleid);
@@ -179,10 +166,7 @@ namespace HealthInsurance.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        private bool UsersExists(decimal id)
-        {
-            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+       
         public IActionResult Subscriptions()
         {
             ViewBag.id = HttpContext.Session.GetInt32("Id");
@@ -191,6 +175,7 @@ namespace HealthInsurance.Controllers
             ViewBag.phoneNumber = HttpContext.Session.GetString("PhoneNumber");
             ViewBag.profilePic = HttpContext.Session.GetString("ProfilePic");
             ViewBag.CurrentDate = DateTime.Now;
+
             return View();
         }
         public IActionResult CardCheck()
@@ -226,28 +211,26 @@ namespace HealthInsurance.Controllers
             if (check != null)
             {
                 var card = await _context.Bank.Where(x => x.CardNo == bank.CardNo).FirstOrDefaultAsync();
+
                 if (card.Balance >= 50)
                 {
-                    // Deduct $50 from the card's balance
                     card.Balance -= 50;
                     card.PaymentMethod = "CreditCard";
 
-                    var userId = HttpContext.Session.GetInt32("Id"); // Replace with your logic to get the user ID
+                    var userId = HttpContext.Session.GetInt32("Id");
                     var subscription = _context.Subscriptions.FirstOrDefault(s => s.Userid == userId);
 
                     if (subscription == null)
                     {
-                        // Create a new subscription if the user is not subscribed
                         subscription = new Subscriptions
                         {
-                            Userid = userId, // Set the user ID
+                            Userid = userId,
                             StartDate = DateTime.Now,
                             Amount = 50,
                             Status = "Subscribed",
                         };
                         _context.Add(subscription);
 
-                        // Update the card balance
                         _context.Update(card);
                     }
                     else
@@ -256,38 +239,33 @@ namespace HealthInsurance.Controllers
                         return RedirectToAction("Subscriptions", "Home");
                     }
 
-                    // Send an email with an invoice
                     using (SmtpClient smtpClient = new SmtpClient("smtp.gmail.com"))
                     {
                         smtpClient.Port = 587;
                         smtpClient.UseDefaultCredentials = false;
-                        smtpClient.Credentials = new NetworkCredential("amirherzalla8@gmail.com", "ccthxdcuhqqudgvi"); // Replace with your Gmail email and App Password
+                        smtpClient.Credentials = new NetworkCredential("amirherzalla8@gmail.com", "ccthxdcuhqqudgvi");
                         smtpClient.EnableSsl = true;
 
                         MailMessage mailMessage = new MailMessage
                         {
                             From = new MailAddress("amirherzalla8@gmail.com"),
                             Subject = "Invoice for Subscription",
-                            Body = "Here's your invoice for the subscription."
+                            Body = "Congratulations you have subscribed successfully! here is your payment details"
                         };
 
                         mailMessage.To.Add(ViewBag.email);
 
-                        // Create the PDF invoice
-                        var pdfFileName = GenerateInvoicePDF(ViewBag.name, ViewBag.CurrentDate, 50.0); // Pass the required data for the invoice
-
-                        // Attach the PDF to the email
+                        var pdfFileName = GenerateInvoicePDF(ViewBag.name, ViewBag.CurrentDate, 50.0); 
+                        
                         mailMessage.Attachments.Add(new Attachment(pdfFileName, MediaTypeNames.Application.Pdf));
 
                         smtpClient.Send(mailMessage);
                     }
 
-                    await _context.SaveChangesAsync(); // Save changes to the database
+                    await _context.SaveChangesAsync();
 
-                    // Store a success message in TempData
                     TempData["PaymentSuccess"] = "Payment successful. Please check your email for the invoice.";
 
-                    // Return to the same view
                     return RedirectToAction("Subscriptions", "Home");
                 }
                 else
@@ -297,7 +275,6 @@ namespace HealthInsurance.Controllers
             }
             else
             {
-                // For error cases, you can do something like this:
                 TempData["PaymentError"] = "Payment failed. Invalid card details.";
             }
 
@@ -305,10 +282,9 @@ namespace HealthInsurance.Controllers
         }
         public string GenerateInvoicePDF(string customerName, DateTime currentDate, double amount)
         {
-            // Create a new document with borders
+            
             iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 50, 50, 50, 50);
 
-            // Generate a unique file name for the PDF
             string pdfFileName = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".pdf");
 
             using (FileStream fs = new FileStream(pdfFileName, FileMode.Create))
@@ -316,31 +292,30 @@ namespace HealthInsurance.Controllers
                 PdfWriter writer = PdfWriter.GetInstance(document, fs);
                 document.Open();
 
-                // Add a border around the page
                 PdfContentByte cb = writer.DirectContent;
-                float margin = 30; // Adjust the margin as needed
+                float margin = 30; 
                 cb.SetLineWidth(2);
                 cb.Rectangle(margin, margin, document.PageSize.Width - 2 * margin, document.PageSize.Height - 2 * margin);
                 cb.Stroke();
 
-                // Add a logo inside the border at the top center
                 string logoPath = Path.Combine(webHostEnvironment.WebRootPath + "/HomeAssets/img/icon/" + "icon-02-primary.png");
                 iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(logoPath);
                 logo.SetAbsolutePosition((document.PageSize.Width - logo.ScaledWidth) / 2, document.PageSize.Height - 130); // Adjust the position as needed
                 document.Add(logo);
 
-                // Add some space
                 for (int i = 0; i < 3; i++)
                 {
                     document.Add(new Paragraph(" "));
                 }
-                // Add content to the PDF inside the border (e.g., customer name, date, amount)
+
                 Paragraph heading = new Paragraph("Invoice", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 16f));
                 heading.Alignment = Element.ALIGN_CENTER;
+                
                 for (int i = 0; i < 2; i++)
                 {
                     document.Add(new Paragraph(" "));
                 }
+
                 document.Add(heading);
                 document.Add(new Paragraph(" "));
                 document.Add(new Paragraph($"Customer Name: {customerName}"));
@@ -352,6 +327,7 @@ namespace HealthInsurance.Controllers
 
             return pdfFileName;
         }
+
         public IActionResult AddBeneficiaries()
         {
             ViewBag.BeneId = HttpContext.Session.GetInt32("BeneId");
@@ -382,7 +358,6 @@ namespace HealthInsurance.Controllers
 
             beneficiaries.Status = "Pending";
 
-            // Retrieve user and subscription information
             var userId = HttpContext.Session.GetInt32("Id");
             var subscription = _context.Subscriptions.FirstOrDefault(s => s.Userid == userId);
 
@@ -395,7 +370,6 @@ namespace HealthInsurance.Controllers
             {
                 if (beneficiaries.BeneficiaryImageFile != null)
                 {
-                    // Handle file upload
                     string wwwRootPath = webHostEnvironment.WebRootPath;
                     string fileName = Guid.NewGuid().ToString() + beneficiaries.BeneficiaryImageFile.FileName;
                     string path = Path.Combine(wwwRootPath + "/images/" + fileName);
@@ -413,7 +387,6 @@ namespace HealthInsurance.Controllers
                 HttpContext.Session.SetString("BeneName", beneficiaries.Name);
                 HttpContext.Session.SetString("BeneRelToSub", beneficiaries.RelationshipToSubscriber);
 
-                // Create a new Beneficiaries object and set its properties
                 var newBeneficiary = new Beneficiaries
                 {
                     Subscriptionid = beneficiaries.Subscriptionid,
@@ -426,11 +399,8 @@ namespace HealthInsurance.Controllers
                     BeneficiaryCreationDate = beneficiaries.BeneficiaryCreationDate
                 };
 
-                // Add the new beneficiary to the subscription's collection
                 subscription.Beneficiaries.Add(newBeneficiary);
 
-
-                // Save changes to the database
                 await _context.SaveChangesAsync();
             }
             TempData["BeneSuccess"] = "Your request has been successfully submitted. Please check your email for further instructions and updates.";
@@ -472,7 +442,7 @@ namespace HealthInsurance.Controllers
 
             _context.Add(testimonials);
             await _context.SaveChangesAsync();
-            
+
 
             ViewData["Userid"] = new SelectList(_context.Users, "Id", "Id", testimonials.Userid);
             TempData["TestimonialSuccess"] = "Your testimonial has been successfully submitted. It will be reviewed by our admins";
