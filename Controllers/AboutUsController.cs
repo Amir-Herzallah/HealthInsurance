@@ -135,7 +135,8 @@ namespace HealthInsurance.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                TempData["EditPagesSuccess"] = "Changes have been saved!";
+                return RedirectToAction("Index","Admin");
             }
             return View(aboutUs);
         }
