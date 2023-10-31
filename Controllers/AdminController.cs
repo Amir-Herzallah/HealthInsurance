@@ -130,7 +130,7 @@ namespace HealthInsurance.Controllers
             ViewBag.userLoginName = HttpContext.Session.GetString("userLoginName");
             ViewBag.userLoginEmail = HttpContext.Session.GetString("userLoginEmail");
 
-            var beneficiaries = _context.Beneficiaries.ToList();
+            var beneficiaries = _context.Beneficiaries.Include(s => s.Subscription.User).ToList();
 
             ViewBag.BeneId = HttpContext.Session.GetInt32("BeneId");
             ViewBag.BeneName = HttpContext.Session.GetString("BeneName");

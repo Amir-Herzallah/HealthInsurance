@@ -319,7 +319,7 @@ namespace HealthInsurance.Controllers
                 document.Add(heading);
                 document.Add(new Paragraph(" "));
                 document.Add(new Paragraph($"Customer Name: {customerName}"));
-                document.Add(new Paragraph($"Date: {currentDate.ToShortDateString()}"));
+                document.Add(new Paragraph($"Subscription Date: {currentDate.ToShortDateString()}"));
                 document.Add(new Paragraph($"Amount Paid: ${amount}"));
 
                 document.Close();

@@ -18,6 +18,7 @@
                     <th>Beneficiary Name</th>
                     <th>Date of Birth</th>
                     <th>Gender</th>
+                    <th>Subscriber Name</th>
                     <th>Relationship to Subscriber</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -30,6 +31,7 @@
                         <td>@beneficiary.Name</td>
                         <td>@beneficiary.DateOfBirth.ToShortDateString()</td>
                         <td>@beneficiary.Gender</td>
+                        <td>@beneficiary.Subscription.User.Username</td>
                         <td>@beneficiary.RelationshipToSubscriber</td>
                         <td>
                             @Html.DisplayFor(modelItem => beneficiary.Status)
