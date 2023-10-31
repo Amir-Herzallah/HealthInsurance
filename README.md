@@ -70,15 +70,15 @@ The Insure system is a dynamic and responsive web application designed to facili
   4.2 User
     User functionality includes:
     
-    Registration and Login: Register and log in to the system.
-    Subscription Payment: Make a one-time payment for a subscription.
-    Invoice Delivery: Receive the subscription invoice via email as a PDF document.
-    Invoice Access: View and download the invoice from the email.
-    Beneficiary Request: Request to add beneficiaries by uploading proof documents.
-    Approval Process: Wait for admin approval of the beneficiary request.
-    Subscription Document: Receive an email with a new subscription document upon request approval.
-    Testimonials: Add user testimonials.
-    Profile Management: View and update user profile information.
+   Registration and Login: Register and log in to the system.
+   Subscription Payment: Make a one-time payment for a subscription.
+   Invoice Delivery: Receive the subscription invoice via email as a PDF document.
+   Invoice Access: View and download the invoice from the email.
+   Beneficiary Request: Request to add beneficiaries by uploading proof documents.
+   Approval Process: Wait for admin approval of the beneficiary request.
+   Subscription Document: Receive an email with a new subscription document upon request approval.
+   Testimonials: Add user testimonials.
+   Profile Management: View and update user profile information.
 
 ---------------------------------------------------------------------------------------------------
-© 2023 [Amir Herzalla] - All Rights Reserved
+© 2023 Amir Herzalla - All Rights Reserved
