@@ -177,7 +177,7 @@ namespace HealthInsurance.Controllers
                     {
                         smtpClient.Port = 587;
                         smtpClient.UseDefaultCredentials = false;
-                        smtpClient.Credentials = new NetworkCredential("amirherzalla8@gmail.com", "ccthxdcuhqqudgvi"); // Replace with your Gmail email and App Password
+                        smtpClient.Credentials = new NetworkCredential("amirherzalla8@gmail.com", "ccthxdcuhqqudgvi");
                         smtpClient.EnableSsl = true;
 
                         MailMessage mailMessage = new MailMessage
@@ -224,10 +224,8 @@ namespace HealthInsurance.Controllers
 
         public string GenerateBenePDF(string customerName, DateTime currentDate, double amount, string beneficiaryInfo)
         {
-            // Create a new document with borders
             iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 50, 50, 50, 50);
 
-            // Generate a unique file name for the PDF
             string pdfFileName = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".pdf");
 
             using (FileStream fs = new FileStream(pdfFileName, FileMode.Create))
@@ -235,7 +233,6 @@ namespace HealthInsurance.Controllers
                 PdfWriter writer = PdfWriter.GetInstance(document, fs);
                 document.Open();
 
-                // Add a border around the page
                 PdfContentByte cb = writer.DirectContent;
                 float margin = 30;
                 cb.SetLineWidth(2);
@@ -244,14 +241,14 @@ namespace HealthInsurance.Controllers
 
                 string logoPath = Path.Combine(webHostEnvironment.WebRootPath + "/HomeAssets/img/icon/" + "icon-02-primary.png");
                 iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(logoPath);
-                logo.SetAbsolutePosition((document.PageSize.Width - logo.ScaledWidth) / 2, document.PageSize.Height - 130); // Adjust the position as needed
+                logo.SetAbsolutePosition((document.PageSize.Width - logo.ScaledWidth) / 2, document.PageSize.Height - 130); 
                 document.Add(logo);
 
-                // Some space
                 for (int i = 0; i < 3; i++)
                 {
                     document.Add(new Paragraph(" "));
                 }
+
                 iTextSharp.text.Paragraph heading = new Paragraph("Subscription Details", new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 16f));
                 heading.Alignment = Element.ALIGN_CENTER;
                 for (int i = 0; i < 2; i++)
@@ -260,7 +257,6 @@ namespace HealthInsurance.Controllers
                 }
                 document.Add(heading);
                 document.Add(new Paragraph(" "));
-                // Add the combined beneficiary information
                 document.Add(new Paragraph($"Customer Name: {customerName}"));
                 document.Add(new Paragraph($"Subscription Date: {currentDate.ToShortDateString()}"));
                 document.Add(new Paragraph($"Amount Paid: ${amount}"));

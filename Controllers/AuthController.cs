@@ -24,7 +24,6 @@ namespace HealthInsurance.Controllers
         public IActionResult Register()
         {
             return View();
-
         }
         public IActionResult Login()
         {
